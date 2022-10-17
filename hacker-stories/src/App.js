@@ -3,33 +3,33 @@ import React from 'react';
 function App() {
   const list = [
     {
-    title: "Scary Movie 1",
-    director: "Director1",
-    releaseYear: 1990,
+    title: "Halloween",
+    director: "John Carpenter",
+    releaseYear: 1978,
     id: 1
     },
     {
-      title: "Scary Movie 2",
-      director: "Director2",
-      releaseYear: 1995,
+      title: "A Nightmare on Elm Street",
+      director: "Wes Craven",
+      releaseYear: 1984,
       id: 2
     },
     {
-      title: "Scary Movie 3",
-      director: "Director3",
-      releaseYear: 2000,
+      title: "Texas Chainsaw Massacre",
+      director: "Tobe Hooper",
+      releaseYear: 1974,
       id: 3
     },
     {
-      title: "Scary Movie 4",
-      director: "Director4",
-      releaseYear: 2005,
+      title: "The Thing",
+      director: "John Carpenter",
+      releaseYear: 1982,
       id: 4
     },
     {
-      title: "Scary Movie 5",
-      director: "Director5",
-      releaseYear: 2012,
+      title: "The Fly",
+      director: "David Cronenberg",
+      releaseYear: 1986,
       id: 5
     }
   ]
@@ -45,7 +45,7 @@ function App() {
 
       <hr/>
 
-      <ul>
+      <ul list-style-type="none">
         { list.map(function (movie) {
           return <li key={movie.id}><b>{movie.title}</b>, released in <b>{movie.releaseYear}</b> directed by <b>{movie.director}</b></li>
           })
