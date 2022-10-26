@@ -33,40 +33,34 @@ const list = [
   }
 ]
 
-function Search(){
-  return (
-    <div>
-      <label htmlFor="search">search</label>
-      <input id="search" type="text"></input>
-    </div>
-  )
-}
+const Search = () => (
+  <div>
+    <label htmlFor="search">search</label>
+    <input id="search" type="text"></input>
+  </div>
+)
 
-function List(){
- return (
+const List = () =>  (
   <ul list-style-type="none">
-    { list.map(function (movie) {
+    { list.map((movie) => {
       return <li key={movie.id}><b>{movie.title}</b>, released in <b>{movie.releaseYear}</b> directed by <b>{movie.director}</b></li>
       })
     }
   </ul>
- )
-}
+)
 
-function App() {
-  return (
-    <div style={{ textAlign: 'center' }}>
-      <h1>
-        Horror Classics
-      </h1>
+const App = () => (
+  <div style={{ textAlign: 'center' }}>
+    <h1>
+      Horror Classics
+    </h1>
 
-      <Search />
+    <Search />
 
-      <hr/>
+    <hr/>
 
-      <List />
-    </div>
-  );
-}
+    <List />
+  </div>
+);
 
 export default App;
