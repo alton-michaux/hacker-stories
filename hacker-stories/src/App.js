@@ -46,9 +46,9 @@ const App = () => {
     setSearchTerm(event.target.value)
   }
 
-  const filteredMovies = list.filter(function (movie) {
-    return movie.title.toLowerCase().includes(searchTerm)
-  }) 
+  const filteredMovies = list.filter((movie) => 
+    (movie.title.toLowerCase().includes(searchTerm.toLowerCase()))
+  );
 
   return (
     <div style={{ textAlign: 'center' }}>
@@ -76,7 +76,7 @@ const Movies = (props) =>  (
   <ul style={{listStyleType: "none"}} >
     { props.list.map((movie) => {
       return (
-        < Item key={movie.id} item={movie} />
+        < Item key={movie.objectID} item={movie} />
       )
       })
     }
@@ -85,7 +85,7 @@ const Movies = (props) =>  (
 
 const Item = (props) => {
   return (
-    <li key={props.item.objectID}>
+    <li>
       <span>
         <a href={props.item.url}>{props.item.title} </a>
       </span>
