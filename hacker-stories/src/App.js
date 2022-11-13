@@ -65,37 +65,37 @@ const App = () => {
   );
 }
 
-const Search = (props) => (
+const Search = ({searchTerm, onSearch}) => (
     <div>
       <label htmlFor="search">Search: </label>
       <input 
         id="search" 
         type="text" 
-        onChange={props.onSearch}
-        value={props.searchTerm}
+        onChange={onSearch}
+        value={searchTerm}
       />
     </div>
   )
 
-const Movies = (props) =>  (
+const Movies = ({ list }) =>  (
   <ul style={{listStyleType: "none"}} >
-    { props.list.map((movie) => {
+    { list.map(({objectID, ...movie}) => {
       return (
-        < Item key={movie.objectID} item={movie} />
+        < Item key={objectID} {...movie} />
       )
       })
     }
   </ul>
 )
 
-const Item = (props) => {
+const Item = ({ title, url, director, releaseYear }) => {
   return (
     <li>
       <span>
-        <a href={props.item.url}>{props.item.title} </a>
+        <a href={url}>{title} </a>
       </span>
-      <span> was directed by {props.item.director}</span>
-      <span> and released in {props.item.releaseYear}</span>
+      <span> was directed by {director}</span>
+      <span> and released in {releaseYear}</span>
     </li>
   )
 }
