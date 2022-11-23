@@ -39,7 +39,13 @@ const App = () => {
     }
   ]
   
-  const [searchTerm, setSearchTerm] = React.useState('Halloween');
+  const [searchTerm, setSearchTerm] = React.useState(
+    localStorage.getItem('search') || "Halloween"
+    );
+
+  React.useEffect(() => {
+    localStorage.setItem('search', searchTerm)
+  }, [searchTerm])
 
   const handleSearch = (event) => {
     event.preventDefault()
