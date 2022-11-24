@@ -3,14 +3,21 @@ import Search from './Search'
 import Movies from './Movies'
 import List from './List'
 
-const App = () => {
-  const [searchTerm, setSearchTerm] = useState(
-    localStorage.getItem('search') || "Halloween"
-    );
+
+const useSemiPersistentState = (key, initialState) => {
+  const [value, setValue] = useState(
+    localStorage.getItem(key) || initialState
+  );
 
   useEffect(() => {
-    localStorage.setItem('search', searchTerm)
-  }, [searchTerm])
+    localStorage.setItem(key, value)
+  }, [value, key])
+
+  return [value, setValue]
+}
+
+const App = () => {
+  const [searchTerm, setSearchTerm] = useSemiPersistentState('search', '')
 
   const handleSearch = (event) => {
     event.preventDefault()
