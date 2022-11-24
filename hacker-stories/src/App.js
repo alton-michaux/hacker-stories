@@ -1,4 +1,6 @@
 import React from 'react';
+import Search from './Search'
+import Movies from './Movies'
 
 const App = () => {
   const list = [
@@ -69,41 +71,6 @@ const App = () => {
       <Movies list={filteredMovies} />
     </div>
   );
-}
-
-const Search = ({searchTerm, onSearch}) => (
-    <div>
-      <label htmlFor="search">Search: </label>
-      <input 
-        id="search" 
-        type="text" 
-        onChange={onSearch}
-        value={searchTerm}
-      />
-    </div>
-  )
-
-const Movies = ({ list }) =>  (
-  <ul style={{listStyleType: "none"}} >
-    { list.map(({objectID, ...movie}) => {
-      return (
-        < Item key={objectID} {...movie} />
-      )
-      })
-    }
-  </ul>
-)
-
-const Item = ({ title, url, director, releaseYear }) => {
-  return (
-    <li>
-      <span>
-        <a href={url}>{title} </a>
-      </span>
-      <span> was directed by {director}</span>
-      <span> and released in {releaseYear}</span>
-    </li>
-  )
 }
 
 export default App;
