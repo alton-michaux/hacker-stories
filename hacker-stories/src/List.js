@@ -1,10 +1,10 @@
 const list = [
 	{
-	title: "Halloween",
-	director: "John Carpenter",
-	releaseYear: 1978,
-	url: "https://en.wikipedia.org/wiki/Halloween_(1978_film)",
-	objectID: 1
+		title: "Halloween",
+		director: "John Carpenter",
+		releaseYear: 1978,
+		url: "https://en.wikipedia.org/wiki/Halloween_(1978_film)",
+		objectID: 1
 	},
 	{
 		title: "A Nightmare on Elm Street",
