@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Input = ({identifier, inputAction}) => (
+const Input = ({id, label, type, identifier, inputAction}) => (
 	<div>
-		<label htmlFor="search">Search: </label>
+		<label htmlFor={id}>{label}</label>
 		<input 
-			id="search" 
-			type="text" 
+			id={id} 
+			type={type}
 			onChange={inputAction}
 			value={identifier}
 		/>
