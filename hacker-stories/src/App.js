@@ -31,11 +31,12 @@ const App = () => {
 
       <Input
         id="search"
-        label="Search"
         type="text"
-        identifier={searchTerm} 
-        inputAction={handleSearch} 
-      />
+        identifier={searchTerm}
+        inputAction={handleSearch}
+      >
+        <strong>Search:</strong>
+      </Input>
 
       <hr />
 
