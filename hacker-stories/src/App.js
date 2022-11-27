@@ -16,9 +16,17 @@ const useSemiPersistentState = (key, initialState) => {
 const App = () => {
   const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "");
 
+  const [list, setList] = useState(List);
+
   const handleSearch = (event) => {
     event.preventDefault();
     setSearchTerm(event.target.value);
+  };
+
+  const handleRemoveItem = (item) => {
+    const newItems = list.filter((movie) => item.objectID !== movie.objectID);
+
+    return setList(newItems);
   };
 
   const filteredMovies = List.filter((movie) =>
@@ -41,7 +49,7 @@ const App = () => {
 
       <hr />
 
-      <Movies list={filteredMovies} />
+      <Movies list={filteredMovies} onRemoveItem={handleRemoveItem} />
     </div>
   );
 };

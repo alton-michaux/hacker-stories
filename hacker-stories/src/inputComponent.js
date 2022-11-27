@@ -8,7 +8,7 @@ const Input = ({ id, children, type, identifier, inputAction, isFocused }) => {
       inputRef.current.focus();
     }
   }, [isFocused]);
-	console.log("identifier", identifier)
+
 	return (
 		<div>
 			<label htmlFor={id}>{children}</label>
