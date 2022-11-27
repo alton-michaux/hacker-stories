@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Search from './Search'
+import Input from './inputComponent';
 import Movies from './Movies'
 import List from './List'
 
@@ -34,7 +34,7 @@ const App = () => {
         Horror Classics
       </h1>
   
-      <Search searchTerm={searchTerm} onSearch={handleSearch}/>
+      <Input identifier={searchTerm} inputAction={handleSearch}/>
   
       <hr/>
   
