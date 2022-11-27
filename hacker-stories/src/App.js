@@ -32,6 +32,7 @@ const App = () => {
       <Input
         id="search"
         type="text"
+        isFocused
         identifier={searchTerm}
         inputAction={handleSearch}
       >
