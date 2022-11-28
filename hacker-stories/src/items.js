@@ -6,7 +6,7 @@ function Items({ list, onRemoveItem }) {
     <ul style={{ listStyleType: "none" }}>
       {list.map((entry) => {
         return (
-          <Item key={entry.objectID} item={entry} onRemoveItem={onRemoveItem} />
+          <Item key={entry.objectID} item={entry} onRemoveItem={() => onRemoveItem(entry)} />
         );
       })}
     </ul>

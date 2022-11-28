@@ -25,7 +25,7 @@ const App = () => {
 
   const handleRemoveItem = (item) => {
     // for some reason props passes in a larger object - will need refactoring
-    const newItems = list.filter((entry) => item.item.objectID !== entry.objectID);
+    const newItems = list.filter((entry) => item.objectID !== entry.objectID);
     return setList(newItems);
   };
 
