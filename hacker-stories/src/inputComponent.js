@@ -9,12 +9,19 @@ const Input = ({ id, children, type, identifier, inputAction, isFocused }) => {
     }
   }, [isFocused]);
 
-	return (
-		<div>
-			<label htmlFor={id}>{children}</label>
-			<input id={id} type={type} onChange={inputAction} value={identifier} autoFocus={isFocused} ref={inputRef} />
-		</div>
-	);
-} 
+  return (
+    <div>
+      <label htmlFor={id}>{children}</label>
+      <input
+        id={id}
+        type={type}
+        onChange={inputAction}
+        value={identifier}
+        autoFocus={isFocused}
+        ref={inputRef}
+      />
+    </div>
+  );
+};
 
 export default Input;
