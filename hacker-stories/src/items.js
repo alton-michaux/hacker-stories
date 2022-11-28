@@ -1,7 +1,7 @@
 import React from 'react';
 import Item from './Item'
 
-function Movies({ list, onRemoveItem }) {
+function Items({ list, onRemoveItem }) {
 	return (
 		<ul style={{ listStyleType: "none" }}>
 			{list.map(({ objectID, ...movie }) => {
@@ -13,4 +13,4 @@ function Movies({ list, onRemoveItem }) {
 	);
 }
 
-export default Movies;
+export default Items;

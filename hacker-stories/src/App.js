@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Input from "./inputComponent";
-import Movies from "./Movies";
-import List from "./List";
+import Items from "./items";
+import List from "./list";
 
 const useSemiPersistentState = (key, initialState) => {
   const [value, setValue] = useState(localStorage.getItem(key) || initialState);
@@ -24,13 +24,13 @@ const App = () => {
   };
 
   const handleRemoveItem = (item) => {
-    const newItems = list.filter((movie) => item.objectID !== movie.objectID);
+    const newItems = list.filter((entry) => item.objectID !== entry.objectID);
 
     return setList(newItems);
   };
 
-  const filteredMovies = List.filter((movie) =>
-    movie.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredEntries = List.filter((entry) =>
+    entry.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -49,7 +49,7 @@ const App = () => {
 
       <hr />
 
-      <Movies list={filteredMovies} onRemoveItem={handleRemoveItem} />
+      <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
     </div>
   );
 };
