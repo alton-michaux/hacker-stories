@@ -1,46 +1,56 @@
-import React, { useState, useEffect } from 'react';
-import Search from './Search'
-import Movies from './Movies'
-import List from './List'
-
+import React, { useState, useEffect } from "react";
+import Input from "./inputComponent";
+import Items from "./items";
+import List from "./list";
 
 const useSemiPersistentState = (key, initialState) => {
-  const [value, setValue] = useState(
-    localStorage.getItem(key) || initialState
-  );
+  const [value, setValue] = useState(localStorage.getItem(key) || initialState);
 
   useEffect(() => {
-    localStorage.setItem(key, value)
-  }, [value, key])
+    localStorage.setItem(key, value);
+  }, [value, key]);
 
-  return [value, setValue]
-}
+  return [value, setValue];
+};
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = useSemiPersistentState('search', '')
+  const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "");
+
+  const [list, setList] = useState(List);
 
   const handleSearch = (event) => {
-    event.preventDefault()
-    setSearchTerm(event.target.value)
-  }
+    event.preventDefault();
+    setSearchTerm(event.target.value);
+  };
 
-  const filteredMovies = List.filter((movie) => 
-    (movie.title.toLowerCase().includes(searchTerm.toLowerCase()))
+  const handleRemoveItem = (item) => {
+    const newItems = list.filter((entry) => item.objectID !== entry.objectID);
+    return setList(newItems);
+  };
+
+  const filteredEntries = list.filter((entry) =>
+    entry.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
-    <div style={{ textAlign: 'center' }}>
-      <h1>
-        Horror Classics
-      </h1>
-  
-      <Search searchTerm={searchTerm} onSearch={handleSearch}/>
-  
-      <hr/>
-  
-      <Movies list={filteredMovies} />
+    <div style={{ textAlign: "center" }}>
+      <h1>Horror Classics</h1>
+
+      <Input
+        id="search"
+        type="text"
+        isFocused
+        identifier={searchTerm}
+        inputAction={handleSearch}
+      >
+        <strong>Search:</strong>
+      </Input>
+
+      <hr />
+
+      <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
     </div>
   );
-}
+};
 
 export default App;
