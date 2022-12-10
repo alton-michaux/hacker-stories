@@ -20,6 +20,8 @@ const App = () => {
 
   const [isLoading, setIsLoading] = useState(false); // loading state
 
+  const [isError, setIsError] = useState(false);
+
   const getAsyncList = () =>
     new Promise((resolve) =>
       setTimeout(
@@ -35,7 +37,7 @@ const App = () => {
       // console.log("result", result)
       setList(result.data.list)
       setIsLoading(false)
-    })
+    }).catch(() => setIsError(true));
   }, []);
 
   const handleSearch = (event) => {
@@ -68,11 +70,14 @@ const App = () => {
 
       <hr />
 
+      { isError && <p>Something went wrong ...</p> }
+
       { isLoading ? (
-        <p> Loading... </p>
-      ) : (
-        <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
-      )}
+          <p> Loading... </p>
+        ) : (
+          <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
+        )
+      }
     </div>
   );
 };
