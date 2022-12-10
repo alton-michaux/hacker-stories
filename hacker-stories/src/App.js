@@ -14,15 +14,15 @@ const useSemiPersistentState = (key, initialState) => {
 };
 
 const listReducer = (state, action) => {
-  if (action.type == 'SET_LIST') {
-    return action.payload
-  } else if (action.type == 'REMOVE_LIST'){
-    return state.filter(
-      (entry) => action.payload.objectID !== entry.objectID
-    );
-  } else {
-    throw new Error();
-  }
+  switch(action.type) {
+    case 'SET_LIST':
+      return action.payload
+    case 'REMOVE_LIST':
+      return state.filter(
+        (entry) => action.payload.objectID !== entry.objectID
+      );
+    default:
+      throw new Error();}
 }
 
 const getAsyncList = () =>
