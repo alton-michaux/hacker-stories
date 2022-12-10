@@ -37,7 +37,7 @@ const App = () => {
       // console.log("result", result)
       setList(result.data.list)
       setIsLoading(false)
-    }).catch(() => setIsError(true));
+    }).catch(() => setIsError(true)); // mention to Roy, can't get setIsError to work
   }, []);
 
   const handleSearch = (event) => {
