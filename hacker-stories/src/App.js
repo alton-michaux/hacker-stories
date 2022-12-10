@@ -16,7 +16,9 @@ const useSemiPersistentState = (key, initialState) => {
 const App = () => {
   const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "");
 
-  const [list, setList] = useState(List);
+  const [list, setList] = useState([]);
+
+  const getAsyncList = () => { Promise.resolve( { data: list } ) }
 
   const handleSearch = (event) => {
     event.preventDefault();
