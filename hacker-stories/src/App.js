@@ -18,18 +18,23 @@ const App = () => {
 
   const [list, setList] = useState([]);
 
+  const [isLoading, setIsLoading] = useState(false); // loading state
+
   const getAsyncList = () =>
-    new Promise((resolve) => 
+    new Promise((resolve) =>
       setTimeout(
-        () => resolve({ data: { list : List } }),
+        () => resolve({ data: { list: List } }),
         2000
-      ) 
+      )
     );
 
   useEffect(() => {
-    getAsyncList().then(result => { 
-      console.log("result", result)
+    setIsLoading(true);
+  
+    getAsyncList().then(result => {
+      // console.log("result", result)
       setList(result.data.list)
+      setIsLoading(false)
     })
   }, []);
 
@@ -63,7 +68,11 @@ const App = () => {
 
       <hr />
 
-      <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
+      { isLoading ? (
+        <p> Loading... </p>
+      ) : (
+        <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
+      )}
     </div>
   );
 };
