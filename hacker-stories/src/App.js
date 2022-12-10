@@ -16,6 +16,10 @@ const useSemiPersistentState = (key, initialState) => {
 const listReducer = (state, action) => {
   if (action.type == 'SET_LIST') {
     return action.payload
+  } else if (action.type == 'REMOVE_LIST'){
+    return state.filter(
+      (entry) => action.payload.objectID !== entry.objectID
+    );
   } else {
     throw new Error();
   }
@@ -46,7 +50,6 @@ const App = () => {
         type: 'SET_LIST',
         payload: result.data.list,
       })
-      // console.log("result", result)
       setIsLoading(false)
     }).catch(() => setIsError(true)); // mention to Roy, can't get setIsError to work
   }, []);
@@ -57,10 +60,9 @@ const App = () => {
   };
 
   const handleRemoveItem = (item) => {
-    const newItems = list.filter((entry) => item.objectID !== entry.objectID);
     dispatchList({
-      type: 'SET_LIST',
-      payload: List
+      type: 'REMOVE_LIST',
+      payload: item
     })
   };
 
