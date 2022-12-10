@@ -18,7 +18,20 @@ const App = () => {
 
   const [list, setList] = useState([]);
 
-  const getAsyncList = () => { Promise.resolve( { data: list } ) }
+  const getAsyncList = () =>
+    new Promise((resolve) => 
+      setTimeout(
+        () => resolve({ data: { list : List } }),
+        2000
+      ) 
+    );
+
+  useEffect(() => {
+    getAsyncList().then(result => { 
+      console.log("result", result)
+      setList(result.data.list)
+    })
+  }, []);
 
   const handleSearch = (event) => {
     event.preventDefault();
