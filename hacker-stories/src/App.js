@@ -51,7 +51,10 @@ const App = () => {
         payload: result.data.list,
       })
       setIsLoading(false)
-    }).catch(() => setIsError(true)); // mention to Roy, can't get setIsError to work
+    }).catch(() => {
+      setIsLoading(false)
+      setIsError(true)
+    }); // mention to Roy, can't get setIsError to work
   }, []);
 
   const handleSearch = (event) => {
