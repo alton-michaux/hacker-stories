@@ -64,9 +64,9 @@ const App = () => {
   );
 
   useEffect(() => {
-    async function fetchData() {
-      dispatchList({ type: 'LIST_FETCH_INIT' })
+    dispatchList({ type: 'LIST_FETCH_INIT' })
 
+    async function fetchData() {
       try {
         const apiKey = '8319dc8ed5msh9c5b33dbb89ad3fp1e984djsn8545acb6dcbc';
 
@@ -80,6 +80,7 @@ const App = () => {
 
         const response = await fetch('https://movie-database-alternative.p.rapidapi.com/?s=*=json&page=1', options)
 
+        console.log('response', await response)
         const data = await response.json()
 
         console.log("data", data)
@@ -90,7 +91,9 @@ const App = () => {
       }
     }
 
-    fetchData()
+    setTimeout(() => {
+      fetchData();
+    }, 3000)
   }, []);
 
   const handleSearch = (event) => {
