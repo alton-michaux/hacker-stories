@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useReducer } from "react";
 import Input from "./inputComponent";
 import Items from "./items";
-import List from "./list";
 
 const useSemiPersistentState = (key, initialState) => {
   const [value, setValue] = useState(localStorage.getItem(key) || initialState);
@@ -39,21 +38,13 @@ const listReducer = (state, action) => {
       return {
         ...state,
         data: state.data.filter(
-          (entry) => action.payload.id !== entry.id
+          (arr) => arr.filter((entry) => action.payload.id !== entry.id)
         ),
       };
     default:
       throw new Error();
   }
 }
-
-// const getAsyncList = () =>
-//   new Promise((resolve) =>
-//     setTimeout(
-//       () => resolve({ data: { list: List } }),
-//       2000
-//     )
-//   );
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "");
@@ -77,8 +68,6 @@ const App = () => {
         const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=horror&with_watch_monetization_types=free`, options)
 
         const data = await response.json()
-
-        console.log("results", data.results)
 
         dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: [data.results] })
       } catch {

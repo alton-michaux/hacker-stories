@@ -3,10 +3,9 @@ import React from "react";
 const Item = ({ item, onRemoveItem }) => (
 	<li style={{ padding: "2px" }}>
 		<span>
-			<a href={item.url}>{item.title} </a>
+			<a href={item.poster_path}>{item.original_title} </a>
 		</span>
-		<span> was directed by {item.director}</span>
-		<span> and released in {item.releaseYear}</span>
+		<span> and released in {item.release_date}</span>
 		<span>
 			<button type="button" onClick={onRemoveItem.bind(null,item)}>
 				Delete
