@@ -14,7 +14,8 @@ const useSemiPersistentState = (key, initialState) => {
 };
 
 const listReducer = (state, action) => {
-  switch(action.type) {
+  console.log("state", state, "action", action, "payload", action.payload)
+  switch (action.type) {
     case 'LIST_FETCH_INIT':
       return {
         ...state,
@@ -46,35 +47,50 @@ const listReducer = (state, action) => {
   }
 }
 
-const getAsyncList = () =>
-  new Promise((resolve) =>
-    setTimeout(
-      () => resolve({ data: { list: List } }),
-      2000
-    )
-  );
+// const getAsyncList = () =>
+//   new Promise((resolve) =>
+//     setTimeout(
+//       () => resolve({ data: { list: List } }),
+//       2000
+//     )
+//   );
 
 const App = () => {
   const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "");
 
   const [list, dispatchList] = useReducer(
-    listReducer, 
+    listReducer,
     { data: [], isLoading: false, isError: false }
   );
 
   useEffect(() => {
-    dispatchList({ type: 'LIST_FETCH_INIT' })
-  
-    getAsyncList().then(result => {
-      dispatchList({
-        type: 'LIST_FETCH_SUCCESS',
-        payload: result.data.list,
-      })
-    }).catch(() => {
-      dispatchList({
-        type: 'LIST_FETCH_FAILURE',
-      })
-    });
+    async function fetchData() {
+      dispatchList({ type: 'LIST_FETCH_INIT' })
+
+      try {
+        const apiKey = '8319dc8ed5msh9c5b33dbb89ad3fp1e984djsn8545acb6dcbc';
+
+        const options = {
+          method: 'GET',
+          headers: {
+            'X-RapidAPI-Key': apiKey,
+            'X-RapidAPI-Host': 'ttps://movie-database-alternative.p.rapidapi.com/?s=Halloween&r=json&page=1'
+          }
+        };
+
+        const response = await fetch('https://movie-database-alternative.p.rapidapi.com/?s=*=json&page=1', options)
+
+        const data = await response.json()
+
+        console.log("data", data)
+
+        dispatchList({ type: 'LIST_FETCH_SUCCESS' }, { data: data })
+      } catch {
+        dispatchList({ type: 'LIST_FETCH_FAILURE' })
+      }
+    }
+
+    fetchData()
   }, []);
 
   const handleSearch = (event) => {
@@ -109,13 +125,13 @@ const App = () => {
 
       <hr />
 
-      { list.isError && <p>Something went wrong ...</p> }
+      {list.isError && <p>Something went wrong ...</p>}
 
-      { list.isLoading ? (
-          <p> Loading... </p>
-        ) : (
-          <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
-        )
+      {list.isLoading ? (
+        <p> Loading... </p>
+      ) : (
+        <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
+      )
       }
     </div>
   );
