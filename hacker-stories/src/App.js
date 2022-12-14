@@ -68,24 +68,19 @@ const App = () => {
 
     async function fetchData() {
       try {
-        const apiKey = '8319dc8ed5msh9c5b33dbb89ad3fp1e984djsn8545acb6dcbc';
+        const apiKey = 'e6b8f17a0b41c55c1722ac4b0c7f1772';
 
         const options = {
           method: 'GET',
-          headers: {
-            'X-RapidAPI-Key': apiKey,
-            'X-RapidAPI-Host': 'ttps://movie-database-alternative.p.rapidapi.com/?s=Halloween&r=json&page=1'
-          }
         };
 
-        const response = await fetch('https://movie-database-alternative.p.rapidapi.com/?s=*=json&page=1', options)
+        const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=horror&with_watch_monetization_types=free`, options)
 
-        console.log('response', await response)
         const data = await response.json()
 
-        console.log("data", data)
+        console.log("results", data.results)
 
-        dispatchList({ type: 'LIST_FETCH_SUCCESS' }, { data: data })
+        dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: [data.results] })
       } catch {
         dispatchList({ type: 'LIST_FETCH_FAILURE' })
       }
