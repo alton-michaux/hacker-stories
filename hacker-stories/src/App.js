@@ -39,7 +39,7 @@ const listReducer = (state, action) => {
       return {
         ...state,
         data: state.data.filter(
-          (entry) => action.payload.objectID !== entry.objectID
+          (entry) => action.payload.id !== entry.id
         ),
       };
     default:
@@ -103,8 +103,10 @@ const App = () => {
     })
   };
 
-  const filteredEntries = list.data.filter((entry) =>
-    entry.title.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredEntries = list.data.filter((arr) =>
+    arr.filter((entry) => {
+      entry.title.toLowerCase().includes(searchTerm.toLowerCase())
+    })
   );
 
   return (
