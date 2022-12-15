@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import Input from "./inputComponent";
 import Items from "./items";
 import List from "./list";
@@ -13,10 +13,69 @@ const useSemiPersistentState = (key, initialState) => {
   return [value, setValue];
 };
 
+const listReducer = (state, action) => {
+  switch(action.type) {
+    case 'LIST_FETCH_INIT':
+      return {
+        ...state,
+        isLoading: true,
+        isError: false,
+      };
+    case 'LIST_FETCH_SUCCESS':
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        data: action.payload,
+      };
+    case 'LIST_FETCH_FAILURE':
+      return {
+        ...state,
+        isLoading: false,
+        isError: true,
+      };
+    case 'REMOVE_LIST':
+      return {
+        ...state,
+        data: state.data.filter(
+          (entry) => action.payload.objectID !== entry.objectID
+        ),
+      };
+    default:
+      throw new Error();
+  }
+}
+
+const getAsyncList = () =>
+  new Promise((resolve) =>
+    setTimeout(
+      () => resolve({ data: { list: List } }),
+      2000
+    )
+  );
+
 const App = () => {
   const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "");
 
-  const [list, setList] = useState(List);
+  const [list, dispatchList] = useReducer(
+    listReducer, 
+    { data: [], isLoading: false, isError: false }
+  );
+
+  useEffect(() => {
+    dispatchList({ type: 'LIST_FETCH_INIT' })
+  
+    getAsyncList().then(result => {
+      dispatchList({
+        type: 'LIST_FETCH_SUCCESS',
+        payload: result.data.list,
+      })
+    }).catch(() => {
+      dispatchList({
+        type: 'LIST_FETCH_FAILURE',
+      })
+    });
+  }, []);
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -24,11 +83,13 @@ const App = () => {
   };
 
   const handleRemoveItem = (item) => {
-    const newItems = list.filter((entry) => item.objectID !== entry.objectID);
-    return setList(newItems);
+    dispatchList({
+      type: 'REMOVE_LIST',
+      payload: item
+    })
   };
 
-  const filteredEntries = list.filter((entry) =>
+  const filteredEntries = list.data.filter((entry) =>
     entry.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -48,7 +109,14 @@ const App = () => {
 
       <hr />
 
-      <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
+      { list.isError && <p>Something went wrong ...</p> }
+
+      { list.isLoading ? (
+          <p> Loading... </p>
+        ) : (
+          <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
+        )
+      }
     </div>
   );
 };
