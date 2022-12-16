@@ -56,6 +56,12 @@ const App = () => {
     dispatchList({ type: 'LIST_FETCH_INIT' })
 
     async function fetchData() {
+      const genre = 'Horror'
+      const page = 4
+      const year = 2022
+      const type = 'movie'
+      const limit = 50
+
       try {
         const options = {
           method: 'GET',
@@ -65,7 +71,7 @@ const App = () => {
           }     
         };
 
-        const response = await fetch(`https://moviesdatabase.p.rapidapi.com/titles/x/upcoming`, options)
+        const response = await fetch(`https://moviesdatabase.p.rapidapi.com/titles?&titleType=${type}&genre=${genre}&limit=${limit}&year=${year}&page=${page}`, options)
 
         const data = await response.json()
 
@@ -100,7 +106,7 @@ const App = () => {
 
   return (
     <div style={{ textAlign: "center" }}>
-      <h1>Upcoming Movies/Music/TV</h1>
+      <h1>Horror Movies 2022</h1>
 
       <Input
         id="search"
