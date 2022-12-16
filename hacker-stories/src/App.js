@@ -93,7 +93,9 @@ const App = () => {
   };
 
   const filteredEntries = list.data.filter((entry) => {
-    entry.title.toLowerCase().includes(searchTerm.toLowerCase())
+    return (
+      entry.title.toLowerCase().includes(searchTerm.toLowerCase())
+    )
   });
 
   return (
@@ -117,7 +119,7 @@ const App = () => {
       {list.isLoading ? (
         <p> Loading... </p>
       ) : (
-        <Items list={list.data} onRemoveItem={handleRemoveItem} />
+        <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
       )
       }
     </div>
