@@ -58,14 +58,14 @@ const App = () => {
     async function fetchData() {
       try {
         const apiKey = 'e6b8f17a0b41c55c1722ac4b0c7f1772';
-        const genre = 'horror';
+        const genre = 'adventure';
         const page = '1';
 
         const options = {
           method: 'GET',
         };
 
-        const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=${page}&with_genres=${genre}&with_watch_monetization_types=free`, options)
+        const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${genre}&without_genres=action%2C%20romance%2C%20documentary%2C%20adventure%2C%20comedy&with_watch_monetization_types=flatrate`, options)
 
         const data = await response.json()
 
