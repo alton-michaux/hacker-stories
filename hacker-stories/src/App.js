@@ -57,15 +57,15 @@ const App = () => {
 
     async function fetchData() {
       try {
-        const apiKey = 'e6b8f17a0b41c55c1722ac4b0c7f1772';
-        const genre = 'adventure';
-        const page = '1';
-
         const options = {
           method: 'GET',
+          headers: {
+            'X-RapidAPI-Key': 'f512439e7bmshfcd6bd4a75c5610p120950jsn4df1718c8117',
+            'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com' 
+          }     
         };
 
-        const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=${page}&with_genres=${genre}&without_genres=action%2C%20romance%2C%20documentary%2C%20adventure%2C%20comedy&with_watch_monetization_types=flatrate`, options)
+        const response = await fetch(`https://moviesdatabase.p.rapidapi.com/titles/x/upcoming`, options)
 
         const data = await response.json()
 
@@ -94,13 +94,13 @@ const App = () => {
 
   const filteredEntries = list.data.filter((entry) => {
     return (
-      entry.title.toLowerCase().includes(searchTerm.toLowerCase())
+      entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
     )
   });
 
   return (
     <div style={{ textAlign: "center" }}>
-      <h1>Trending Movies</h1>
+      <h1>Upcoming Movies/Music/TV</h1>
 
       <Input
         id="search"
