@@ -13,7 +13,6 @@ const useSemiPersistentState = (key, initialState) => {
 };
 
 const listReducer = (state, action) => {
-  console.log("state", state, "action", action, "payload", action.payload)
   switch (action.type) {
     case 'LIST_FETCH_INIT':
       return {
@@ -38,8 +37,7 @@ const listReducer = (state, action) => {
       return {
         ...state,
         data: state.data.filter(
-          (arr) => arr.filter((entry) => action.payload.id !== entry.id)
-        ),
+          (entry) => action.payload.id !== entry.id),
       };
     default:
       throw new Error();
@@ -60,16 +58,18 @@ const App = () => {
     async function fetchData() {
       try {
         const apiKey = 'e6b8f17a0b41c55c1722ac4b0c7f1772';
+        const genre = 'horror';
+        const page = '1';
 
         const options = {
           method: 'GET',
         };
 
-        const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=1&with_genres=horror&with_watch_monetization_types=free`, options)
+        const response = await fetch(`https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=popularity.desc&include_adult=true&include_video=false&page=${page}&with_genres=${genre}&with_watch_monetization_types=free`, options)
 
         const data = await response.json()
 
-        dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: [data.results] })
+        dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: data.results })
       } catch {
         dispatchList({ type: 'LIST_FETCH_FAILURE' })
       }
@@ -92,15 +92,13 @@ const App = () => {
     })
   };
 
-  const filteredEntries = list.data.filter((arr) =>
-    arr.filter((entry) => {
-      entry.title.toLowerCase().includes(searchTerm.toLowerCase())
-    })
-  );
+  const filteredEntries = list.data.filter((entry) => {
+    entry.title.toLowerCase().includes(searchTerm.toLowerCase())
+  });
 
   return (
     <div style={{ textAlign: "center" }}>
-      <h1>Horror Classics</h1>
+      <h1>Trending Movies</h1>
 
       <Input
         id="search"
@@ -119,7 +117,7 @@ const App = () => {
       {list.isLoading ? (
         <p> Loading... </p>
       ) : (
-        <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
+        <Items list={list.data} onRemoveItem={handleRemoveItem} />
       )
       }
     </div>

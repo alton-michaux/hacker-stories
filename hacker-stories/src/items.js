@@ -4,15 +4,12 @@ import Item from "./Item";
 function Items({ list, onRemoveItem }) {
   return (
     <ul style={{ listStyleType: "none" }}>
-      {list.map((arr) => {
-        return (
-          arr.map((entry) => {
-            return (
-              <Item key={entry.id} item={entry} onRemoveItem={() => onRemoveItem(entry)} />
-            );
-          })
-        )
-      })}
+      {list.map((entry) => {
+          return (
+            <Item key={entry.id} item={entry} onRemoveItem={() => onRemoveItem(entry)} />
+          );
+        })
+      }
     </ul>
   );
 }

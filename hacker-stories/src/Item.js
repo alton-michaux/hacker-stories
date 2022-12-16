@@ -1,17 +1,16 @@
 import React from "react";
 
-const Item = ({ item, onRemoveItem }) => (
-	<li style={{ padding: "2px" }}>
+const Item = ({ item, onRemoveItem }) => {
+	return (
+	< li style = {{ padding: "5px" }}>
+		<span>{item.original_title} </span>
+		<span> was released {item.release_date}</span>
 		<span>
-			<a href={item.poster_path}>{item.original_title} </a>
-		</span>
-		<span> and released in {item.release_date}</span>
-		<span>
-			<button type="button" onClick={onRemoveItem.bind(null,item)}>
+			<button type="button" onClick={() => onRemoveItem(item)}>
 				Delete
 			</button>
 		</span>
-	</li>
-);
+	</li >
+)};
 
 export default Item;
