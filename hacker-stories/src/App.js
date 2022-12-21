@@ -57,7 +57,7 @@ const App = () => {
 
     async function fetchData() {
       const genre = 'Horror'
-      const page = 4
+      const page = 1
       const year = 2022
       const type = 'movie'
       const limit = 50
