@@ -2,7 +2,7 @@ import React from "react";
 
 const Item = ({ item, onRemoveItem }) => {
 	return (
-	< li style = {{ padding: "5px" }}>
+	< li style = {{ padding: "5px" }} className="item">
 		<span>{item.titleText.text} </span>
 		<span>is a {item.titleType.text} that</span>
 		<span> was released in {item.releaseYear.year} </span>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useReducer } from "react";
 import Input from "./inputComponent";
 import Items from "./items";
+import "./App.css"
 
 const useSemiPersistentState = (key, initialState) => {
   const [value, setValue] = useState(localStorage.getItem(key) || initialState);
@@ -105,7 +106,7 @@ const App = () => {
   });
 
   return (
-    <div style={{ textAlign: "center" }}>
+    <div style={{ textAlign: "center" }} className="main-div">
       <h1>Horror Movies 2022</h1>
 
       <Input
@@ -115,19 +116,21 @@ const App = () => {
         identifier={searchTerm}
         inputAction={handleSearch}
       >
-        <strong>Search:</strong>
+        <strong>Search: </strong>
       </Input>
 
-      <hr />
+      <hr className="divider" />
 
-      {list.isError && <p>Something went wrong ...</p>}
+      <div className="list-div">
+        {list.isError && <p>Something went wrong ...</p>}
 
-      {list.isLoading ? (
-        <p> Loading... </p>
-      ) : (
-        <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
-      )
-      }
+        {list.isLoading ? (
+          <p> Loading... </p>
+        ) : (
+          <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
+        )
+        }
+      </div>
     </div>
   );
 };
