@@ -5,10 +5,9 @@ const Item = ({ item, onRemoveItem }) => {
 	< li style = {{ padding: "5px" }} className="item">
 		{/* <img src={item.primaryImage.url} alt={item.primaryImage.caption.plainText}/> */}
 		<span>{item.titleText.text} </span>
-		<span>is a {item.titleType.text} that</span>
-		<span> was released in {item.releaseYear.year} </span>
+		<br/>
 		<span>
-			<button type="button" onClick={() => onRemoveItem(item)}>
+			<button type="button" onClick={() => onRemoveItem(item)} className="delete-btn">
 				Delete
 			</button>
 		</span>

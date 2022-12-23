@@ -26,8 +26,8 @@ body {
 
 .item-div {
     display: grid;
-    grid-template-columns: 30% 30% 30%;
-    grid-template-rows: 5% 5% 5%;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto;
     column-gap: 2%;
     row-gap: 2%;
 }
@@ -35,4 +35,10 @@ body {
 .item {
     min-height: 300px;
     margin: 5%;
+    border: 1px solid white;
+}
+
+.delete-btn {
+    padding: 5px;
+    margin-top: 10px;
 }
