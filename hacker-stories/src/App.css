@@ -5,6 +5,10 @@ body {
     overflow: auto;
 }
 
+li {
+    overflow: scroll;
+}
+
 ::-webkit-scrollbar {
     display: none;
   }
@@ -34,15 +38,16 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto auto auto;
-    column-gap: 1%;
-    row-gap: 1%;
+    gap: 5px;
+    row-gap: 1px;
     padding-left: 0;
+    min-height: 100px;
 }
 
 .item {
-    min-height: 300px;
     margin: 10%;
-    border: 3px solid white;
+    transition: height 0.5s;
+    -webkit-transition: height 0.5s;
 }
 
 .item-title {
@@ -50,6 +55,9 @@ body {
 }
 
 .delete-btn {
-    margin: 5px;
-    padding: 10px;
+    /* display: none; */
+    padding: 20px;
+    border-radius: 10%;
+    background-color:firebrick;
+    color: white;
 }

@@ -6,30 +6,24 @@ const Item = ({ item, onRemoveItem }) => {
 			{item.primaryImage ?
 				<>
 					<span>
-						<img src={item.primaryImage.url} alt={item.primaryImage.caption.plainText} width="100%" height="100%" />
+						<img src={item.primaryImage.url} alt={item.primaryImage.caption.plainText} width="100%" height="70%" />
 					</span>
-					<span><h2 className="item-title">{item.titleText.text}</h2></span>
-					<br />
-					<span>
-						<button type="button" onClick={() => onRemoveItem(item)} className="delete-btn">
-							Remove From List
-						</button>
-					</span>
-
 				</> :
 				<>
 					<span>
-						<img src="https://static6.depositphotos.com/1002881/580/i/600/depositphotos_5804811-stock-photo-error-404.jpg" alt={item.titleText.text} width="100%" height="100%" />
-					</span>
-					<span><h2 className="item-title">{item.titleText.text}</h2></span>
-					<br />
-					<span>
-						<button type="button" onClick={() => onRemoveItem(item)} className="delete-btn">
-							Remove From List
-						</button>
+						<img src="https://static6.depositphotos.com/1002881/580/i/600/depositphotos_5804811-stock-photo-error-404.jpg" alt={item.titleText.text} width="100%" height="70%" />
 					</span>
 				</>
 			}
+			<span><h2 className="item-title">{item.titleText.text}</h2></span>
+			<br />
+			<div className="delete-btn-div">
+				<span>
+					<button type="button" onClick={() => onRemoveItem(item)} className="delete-btn">
+						Remove From List
+					</button>
+				</span>
+			</div>
 		</li >
 	)
 };
