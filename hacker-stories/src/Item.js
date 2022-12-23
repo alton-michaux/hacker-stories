@@ -12,7 +12,7 @@ const Item = ({ item, onRemoveItem }) => {
 					<br />
 					<span>
 						<button type="button" onClick={() => onRemoveItem(item)} className="delete-btn">
-							Delete
+							Remove From List
 						</button>
 					</span>
 
@@ -25,7 +25,7 @@ const Item = ({ item, onRemoveItem }) => {
 					<br />
 					<span>
 						<button type="button" onClick={() => onRemoveItem(item)} className="delete-btn">
-							Delete
+							Remove From List
 						</button>
 					</span>
 				</>
