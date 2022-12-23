@@ -42,7 +42,7 @@ body {
 .item {
     min-height: 300px;
     margin: 10%;
-    border: 1px solid white;
+    border: 3px solid white;
 }
 
 .delete-btn {
