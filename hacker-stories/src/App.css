@@ -16,6 +16,12 @@ body {
     background-color: rgb(187, 46, 74);
     border: 3px solid grey;
     overflow-y: scroll;
+    justify-content: center;
+}
+
+.list-div {
+    margin: 0;
+    padding: 0;
 }
 
 .divider {
@@ -28,13 +34,14 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto auto auto;
-    column-gap: 2%;
-    row-gap: 2%;
+    column-gap: 1%;
+    row-gap: 1%;
+    padding-left: 0;
 }
 
 .item {
     min-height: 300px;
-    margin: 5%;
+    margin: 10%;
     border: 1px solid white;
 }
 
