@@ -9,12 +9,24 @@ body {
     margin-top: 2%;
     background-color: rgb(187, 46, 74);
     border: 3px solid grey;
+    min-height: fit-content;
 }
 
 .divider {
     margin: 2%;
 }
 
-.list-div {
-    overflow-y: hidden;
+/* .list-div */
+
+.item-div {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 2fr 2fr 2fr;
+    column-gap: 2%;
+    row-gap: 2%;
+}
+
+.item {
+    min-height: 300px;
+    margin: 5%;
 }
