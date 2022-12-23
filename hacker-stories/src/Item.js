@@ -8,7 +8,7 @@ const Item = ({ item, onRemoveItem }) => {
 					<span>
 						<img src={item.primaryImage.url} alt={item.primaryImage.caption.plainText} width="100%" height="100%" />
 					</span>
-					<span>{item.titleText.text} </span>
+					<span><h2 className="item-title">{item.titleText.text}</h2></span>
 					<br />
 					<span>
 						<button type="button" onClick={() => onRemoveItem(item)} className="delete-btn">
@@ -18,7 +18,10 @@ const Item = ({ item, onRemoveItem }) => {
 
 				</> :
 				<>
-					<span>{item.titleText.text} </span>
+					<span>
+						<img src="https://static6.depositphotos.com/1002881/580/i/600/depositphotos_5804811-stock-photo-error-404.jpg" alt={item.titleText.text} width="100%" height="100%" />
+					</span>
+					<span><h2 className="item-title">{item.titleText.text}</h2></span>
 					<br />
 					<span>
 						<button type="button" onClick={() => onRemoveItem(item)} className="delete-btn">

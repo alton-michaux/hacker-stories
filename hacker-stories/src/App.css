@@ -45,6 +45,10 @@ body {
     border: 3px solid white;
 }
 
+.item-title {
+    margin-top: 10px;
+}
+
 .delete-btn {
     padding: 5px;
     margin-top: 10px;
