@@ -1,5 +1,3 @@
-import React from "react";
-
 const Item = ({ item, onRemoveItem }) => {
 	return (
 		< li style={{ padding: "5px" }} className="item">

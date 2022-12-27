@@ -62,6 +62,7 @@ const App = () => {
       const year = 2022
       const type = 'movie'
       const limit = 50
+      const endpoint = `https://moviesdatabase.p.rapidapi.com/titles?&titleType=${type}&genre=${genre}&limit=${limit}&year=${year}&page=${page}`
 
       try {
         const options = {
@@ -72,7 +73,7 @@ const App = () => {
           }     
         };
 
-        const response = await fetch(`https://moviesdatabase.p.rapidapi.com/titles?&titleType=${type}&genre=${genre}&limit=${limit}&year=${year}&page=${page}`, options)
+        const response = await fetch(endpoint, options)
 
         const data = await response.json()
 
