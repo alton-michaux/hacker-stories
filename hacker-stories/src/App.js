@@ -54,7 +54,9 @@ const App = () => {
   );
 
   const fetchData = useCallback(async () => {
-    if (searchTerm === '') return;
+    if (!searchTerm) return;
+
+    dispatchList({ type: 'LIST_FETCH_INIT' })
 
     const genre = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1);
     const page = 1
@@ -68,8 +70,8 @@ const App = () => {
         method: 'GET',
         headers: {
           'X-RapidAPI-Key': 'f512439e7bmshfcd6bd4a75c5610p120950jsn4df1718c8117',
-          'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com' 
-        }     
+          'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
+        }
       };
 
       const response = await fetch(endpoint, options)
@@ -80,15 +82,13 @@ const App = () => {
     } catch {
       dispatchList({ type: 'LIST_FETCH_FAILURE' })
     }
-  })
+  }, [searchTerm])
 
   useEffect(() => {
-    dispatchList({ type: 'LIST_FETCH_INIT' })
-
     setTimeout(() => {
       fetchData();
     }, 3000)
-  }, [searchTerm]);
+  }, [fetchData]);
 
   const handleSearch = (event) => {
     event.preventDefault();
@@ -102,11 +102,11 @@ const App = () => {
     })
   };
 
-  const filteredEntries = list.data.filter((entry) => {
-    return (
-      entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  });
+  // const filteredEntries = list.data.filter((entry) => {
+  //   return (
+  //     entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
+  //   )
+  // });
 
   return (
     <div style={{ textAlign: "center" }} className="main-div">
