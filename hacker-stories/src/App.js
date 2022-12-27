@@ -57,7 +57,10 @@ const App = () => {
     dispatchList({ type: 'LIST_FETCH_INIT' })
 
     async function fetchData() {
-      const genre = 'Horror'
+      if (searchTerm === '') return;
+
+      const genre = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1);
+      console.log(genre)
       const page = 1
       const year = 2022
       const type = 'movie'
@@ -128,7 +131,7 @@ const App = () => {
         {list.isLoading ? (
           <p> Loading... </p>
         ) : (
-          <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
+          <Items list={list.data} onRemoveItem={handleRemoveItem} />
         )
         }
       </div>
