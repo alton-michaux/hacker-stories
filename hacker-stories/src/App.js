@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useCallback } from "react";
 import Input from "./inputComponent";
 import Items from "./items";
 import "./App.css"
@@ -53,43 +53,42 @@ const App = () => {
     { data: [], isLoading: false, isError: false }
   );
 
+  const fetchData = useCallback(async () => {
+    if (searchTerm === '') return;
+
+    const genre = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1);
+    const page = 1
+    const year = 2022
+    const type = 'movie'
+    const limit = 50
+    const endpoint = `https://moviesdatabase.p.rapidapi.com/titles?&titleType=${type}&genre=${genre}&limit=${limit}&year=${year}&page=${page}`
+
+    try {
+      const options = {
+        method: 'GET',
+        headers: {
+          'X-RapidAPI-Key': 'f512439e7bmshfcd6bd4a75c5610p120950jsn4df1718c8117',
+          'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com' 
+        }     
+      };
+
+      const response = await fetch(endpoint, options)
+
+      const data = await response.json()
+
+      dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: data.results })
+    } catch {
+      dispatchList({ type: 'LIST_FETCH_FAILURE' })
+    }
+  })
+
   useEffect(() => {
     dispatchList({ type: 'LIST_FETCH_INIT' })
-
-    async function fetchData() {
-      if (searchTerm === '') return;
-
-      const genre = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1);
-      console.log(genre)
-      const page = 1
-      const year = 2022
-      const type = 'movie'
-      const limit = 50
-      const endpoint = `https://moviesdatabase.p.rapidapi.com/titles?&titleType=${type}&genre=${genre}&limit=${limit}&year=${year}&page=${page}`
-
-      try {
-        const options = {
-          method: 'GET',
-          headers: {
-            'X-RapidAPI-Key': 'f512439e7bmshfcd6bd4a75c5610p120950jsn4df1718c8117',
-            'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com' 
-          }     
-        };
-
-        const response = await fetch(endpoint, options)
-
-        const data = await response.json()
-
-        dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: data.results })
-      } catch {
-        dispatchList({ type: 'LIST_FETCH_FAILURE' })
-      }
-    }
 
     setTimeout(() => {
       fetchData();
     }, 3000)
-  }, []);
+  }, [searchTerm]);
 
   const handleSearch = (event) => {
     event.preventDefault();
