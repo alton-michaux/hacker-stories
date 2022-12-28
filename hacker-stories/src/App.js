@@ -47,11 +47,11 @@ const listReducer = (state, action) => {
 }
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = useSemiPersistentState("genre", "");
+  const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "");
 
   const [ endpoint, setEndpoint ] = useState('')
 
-  const [ genre, setGenre ] = useState('');
+  const [ genre, setGenre ] = useSemiPersistentState("genre", "");
 
   const [ year, setYear ] = useSemiPersistentState("year", "");
 
@@ -64,11 +64,6 @@ const App = () => {
     if (!genre) return;
 
     dispatchList({ type: 'LIST_FETCH_INIT' })
-
-    const page = 1
-    const type = 'movie'
-    const limit = 50
-    setEndpoint(`https://moviesdatabase.p.rapidapi.com/titles?&titleType=${type}&genre=${genre}&limit=${limit}&year=${year}&page=${page}`)
     
     const options = {
       method: 'GET',
@@ -111,7 +106,11 @@ const App = () => {
   }
 
   const handleSearchAction = () => {
-    setEndpoint('https://moviesdatabase.p.rapidapi.com/titles')
+    const page = 1
+    const type = 'movie'
+    const limit = 50
+
+    setEndpoint(`https://moviesdatabase.p.rapidapi.com/titles?&titleType=${type}&genre=${genre}&limit=${limit}&year=${year}&page=${page}`)
   }
 
   const handleRemoveItem = (item) => {
@@ -146,6 +145,7 @@ const App = () => {
           id="year"
           type="text"
           isFocused
+          identifier={year}
           input={handleYearInput}
         >
           <strong>Year: </strong>
