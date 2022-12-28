@@ -1,0 +1,56 @@
+body {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  background-color: #380904;
+  color: white;
+  overflow: auto;
+}
+
+body ::-webkit-scrollbar {
+  display: none;
+}
+
+.main-div {
+  margin: 5%;
+  margin-top: 2%;
+  margin-bottom: 5%;
+  background-color: #e2240f;
+  border: 3px solid grey;
+  overflow-y: scroll;
+  justify-content: center;
+}
+
+.list-div {
+  margin: 0;
+  padding: 0;
+}
+
+.divider {
+  margin: 2%;
+}
+
+.item-div {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto auto auto;
+  gap: 5px;
+  row-gap: 1px;
+  padding-left: 0;
+  min-height: 100px;
+}
+
+.item {
+  margin: 10%;
+  transition: height 0.5s;
+  -webkit-transition: height 0.5s;
+}
+
+.item-title {
+  margin-top: 10px;
+}
+
+.delete-btn {
+  padding: 20px;
+  border-radius: 10%;
+  background-color: #8d1609;
+  color: white;
+}

@@ -1,14 +1,14 @@
-import React from "react";
 import Item from "./Item";
 
 function Items({ list, onRemoveItem }) {
   return (
-    <ul style={{ listStyleType: "none" }}>
+    <ul style={{ listStyleType: "none" }} className="item-div">
       {list.map((entry) => {
-        return (
-          <Item key={entry.objectID} item={entry} onRemoveItem={() => onRemoveItem(entry)} />
-        );
-      })}
+          return (
+            <Item key={entry.id} item={entry} onRemoveItem={() => onRemoveItem(entry)} />
+          );
+        })
+      }
     </ul>
   );
 }

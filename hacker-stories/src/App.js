@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect, useReducer, useCallback } from "react";
 import Input from "./inputComponent";
 import Items from "./items";
-import List from "./list";
+import "./App.css"
 
 const useSemiPersistentState = (key, initialState) => {
   const [value, setValue] = useState(localStorage.getItem(key) || initialState);
@@ -14,7 +14,7 @@ const useSemiPersistentState = (key, initialState) => {
 };
 
 const listReducer = (state, action) => {
-  switch(action.type) {
+  switch (action.type) {
     case 'LIST_FETCH_INIT':
       return {
         ...state,
@@ -38,49 +38,69 @@ const listReducer = (state, action) => {
       return {
         ...state,
         data: state.data.filter(
-          (entry) => action.payload.objectID !== entry.objectID
-        ),
+          (entry) => action.payload.id !== entry.id),
       };
     default:
       throw new Error();
   }
 }
 
-const getAsyncList = () =>
-  new Promise((resolve) =>
-    setTimeout(
-      () => resolve({ data: { list: List } }),
-      2000
-    )
-  );
-
 const App = () => {
   const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "");
 
+  const [ endpoint, setEndpoint ] = useState('')
+
+  const [ genre, setGenre ] = useState('');
+
   const [list, dispatchList] = useReducer(
-    listReducer, 
+    listReducer,
     { data: [], isLoading: false, isError: false }
   );
 
-  useEffect(() => {
-    dispatchList({ type: 'LIST_FETCH_INIT' })
-  
-    getAsyncList().then(result => {
-      dispatchList({
-        type: 'LIST_FETCH_SUCCESS',
-        payload: result.data.list,
-      })
-    }).catch(() => {
-      dispatchList({
-        type: 'LIST_FETCH_FAILURE',
-      })
-    });
-  }, []);
+  const fetchData = useCallback(async () => {
+    if (!genre) return;
 
-  const handleSearch = (event) => {
+    dispatchList({ type: 'LIST_FETCH_INIT' })
+
+    const page = 1
+    const year = 2022
+    const type = 'movie'
+    const limit = 50
+    setEndpoint(`https://moviesdatabase.p.rapidapi.com/titles?&titleType=${type}&genre=${genre}&limit=${limit}&year=${year}&page=${page}`)
+    
+    const options = {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-Key': 'f512439e7bmshfcd6bd4a75c5610p120950jsn4df1718c8117',
+        'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
+      }
+    };
+
+    try {
+      const response = await fetch(endpoint, options)
+
+      const data = await response.json()
+
+      dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: data.results })
+    } catch {
+      dispatchList({ type: 'LIST_FETCH_FAILURE' })
+    }
+  }, [endpoint, genre])
+
+  useEffect(() => {
+    setTimeout(() => {
+      fetchData();
+    }, 3000)
+  }, [fetchData]);
+
+  const handleSearchInput = (event) => {
     event.preventDefault();
     setSearchTerm(event.target.value);
   };
+
+  const handleSearchAction = () => {
+    setGenre(searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1));
+  }
 
   const handleRemoveItem = (item) => {
     dispatchList({
@@ -89,34 +109,39 @@ const App = () => {
     })
   };
 
-  const filteredEntries = list.data.filter((entry) =>
-    entry.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredEntries = list.data.filter((entry) => {
+  //   return (
+  //     entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
+  //   )
+  // });
 
   return (
-    <div style={{ textAlign: "center" }}>
-      <h1>Horror Classics</h1>
+    <div style={{ textAlign: "center" }} className="main-div">
+      <h1>{searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1)} Movies 2022</h1>
 
       <Input
         id="search"
         type="text"
         isFocused
         identifier={searchTerm}
-        inputAction={handleSearch}
+        input={handleSearchInput}
+        inputAction={handleSearchAction}
       >
-        <strong>Search:</strong>
+        <strong>Genre: </strong>
       </Input>
 
-      <hr />
+      <hr className="divider" />
 
-      { list.isError && <p>Something went wrong ...</p> }
+      <div className="list-div">
+        {list.isError && <p>Something went wrong ...</p>}
 
-      { list.isLoading ? (
+        {list.isLoading ? (
           <p> Loading... </p>
         ) : (
-          <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
+          <Items list={list.data} onRemoveItem={handleRemoveItem} />
         )
-      }
+        }
+      </div>
     </div>
   );
 };
