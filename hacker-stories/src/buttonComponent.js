@@ -1,4 +1,4 @@
-const SearchButton = ({identifier, inputAction, loading }) => {
+const SearchButton = ({ identifier, inputAction, loading }) => {
 
   return (
     <div>

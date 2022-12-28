@@ -1,62 +1,22 @@
 import React, { useState, useEffect, useReducer, useCallback } from "react";
-import SearchButton from "./buttonComponent";
+import UseSemiPersistentState from "./semiPerssistentState";
+import ListReducer from "./reducers";
 import Input from "./inputComponent";
+import SearchButton from "./buttonComponent";
 import Items from "./items";
 import "./App.css"
 
-const useSemiPersistentState = (key, initialState) => {
-  const [value, setValue] = useState(localStorage.getItem(key) || initialState);
-
-  useEffect(() => {
-    localStorage.setItem(key, value);
-  }, [value, key]);
-
-  return [value, setValue];
-};
-
-const listReducer = (state, action) => {
-  switch (action.type) {
-    case 'LIST_FETCH_INIT':
-      return {
-        ...state,
-        isLoading: true,
-        isError: false,
-      };
-    case 'LIST_FETCH_SUCCESS':
-      return {
-        ...state,
-        isLoading: false,
-        isError: false,
-        data: action.payload,
-      };
-    case 'LIST_FETCH_FAILURE':
-      return {
-        ...state,
-        isLoading: false,
-        isError: true,
-      };
-    case 'REMOVE_LIST':
-      return {
-        ...state,
-        data: state.data.filter(
-          (entry) => action.payload.id !== entry.id),
-      };
-    default:
-      throw new Error();
-  }
-}
-
 const App = () => {
-  const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "");
+  const [searchTerm, setSearchTerm] = UseSemiPersistentState("search", "");
 
   const [endpoint, setEndpoint] = useState('')
 
-  const [genre, setGenre] = useSemiPersistentState("genre", "");
+  const [genre, setGenre] = UseSemiPersistentState("genre", "");
 
-  const [year, setYear] = useSemiPersistentState("year", "");
+  const [year, setYear] = UseSemiPersistentState("year", "");
 
   const [list, dispatchList] = useReducer(
-    listReducer,
+    ListReducer,
     { data: [], isLoading: false, isError: false }
   );
 
