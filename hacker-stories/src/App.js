@@ -41,6 +41,12 @@ const listReducer = (state, action) => {
         data: state.data.filter(
           (entry) => action.payload.id !== entry.id),
       };
+    case 'LIST_NOT_PRESENT':
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+      }
     default:
       throw new Error();
   }
@@ -61,8 +67,6 @@ const App = () => {
   );
 
   const fetchData = useCallback(async () => {
-    if (!genre) return;
-
     dispatchList({ type: 'LIST_FETCH_INIT' })
     
     const options = {
@@ -120,11 +124,11 @@ const App = () => {
     })
   };
 
-  // const filteredEntries = list.data.filter((entry) => {
-  //   return (
-  //     entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
-  //   )
-  // });
+  const filteredEntries = list.data.filter((entry) => {
+    return (
+      entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  });
 
   return (
     <div style={{ textAlign: "center" }} className="main-div">
@@ -162,13 +166,27 @@ const App = () => {
 
       <hr className="divider" />
 
+      <div className="input-div">
+        <Input
+          id="search"
+          type="text"
+          isFocused
+          identifier={searchTerm}
+          input={handleSearchInput}
+        >
+          <strong>Search: </strong>
+        </Input>
+      </div>
+
+      <hr className="divider" />
+
       <div className="list-div">
         {list.isError && <p>Something went wrong ...</p>}
 
         {list.isLoading ? (
           <p> Loading... </p>
         ) : (
-          <Items list={list.data} onRemoveItem={handleRemoveItem} />
+          <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
         )
         }
       </div>
