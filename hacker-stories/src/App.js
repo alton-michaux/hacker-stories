@@ -87,7 +87,7 @@ const App = () => {
     } catch {
       dispatchList({ type: 'LIST_FETCH_FAILURE' })
     }
-  }, [endpoint, genre, year])
+  }, [endpoint])
 
   useEffect(() => {
     setTimeout(() => {
@@ -105,8 +105,13 @@ const App = () => {
     setYear(event.target.value)
   }
 
+  const handleGenreInput = (event) => {
+    event.preventDefault()
+    setGenre(event.target.value.charAt(0).toUpperCase() + event.target.value.slice(1))
+  }
+
   const handleSearchAction = () => {
-    setGenre(searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1));
+    setEndpoint('https://moviesdatabase.p.rapidapi.com/titles')
   }
 
   const handleRemoveItem = (item) => {
@@ -124,15 +129,15 @@ const App = () => {
 
   return (
     <div style={{ textAlign: "center" }} className="main-div">
-      <h1>{searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1)} Movies {year}</h1>
+      <h1>{genre} Movies {year}</h1>
 
       <div className="input-div">
         <Input
-          id="search"
+          id="genre"
           type="text"
           isFocused
-          identifier={searchTerm}
-          input={handleSearchInput}
+          identifier={genre}
+          input={handleGenreInput}
         >
           <strong>Genre: </strong>
         </Input>
@@ -149,7 +154,7 @@ const App = () => {
     
       <div className="search-button-div">
         <SearchButton
-          identifier={searchTerm}
+          identifier={genre}
           inputAction={handleSearchAction}
           loading={list.isLoading}
         ></SearchButton>
