@@ -52,6 +52,8 @@ const App = () => {
 
   const [ genre, setGenre ] = useState('');
 
+  const [ year, setYear ] = useState(2022);
+
   const [list, dispatchList] = useReducer(
     listReducer,
     { data: [], isLoading: false, isError: false }
@@ -63,7 +65,6 @@ const App = () => {
     dispatchList({ type: 'LIST_FETCH_INIT' })
 
     const page = 1
-    const year = 2022
     const type = 'movie'
     const limit = 50
     setEndpoint(`https://moviesdatabase.p.rapidapi.com/titles?&titleType=${type}&genre=${genre}&limit=${limit}&year=${year}&page=${page}`)
@@ -85,7 +86,7 @@ const App = () => {
     } catch {
       dispatchList({ type: 'LIST_FETCH_FAILURE' })
     }
-  }, [endpoint, genre])
+  }, [endpoint, genre, year])
 
   useEffect(() => {
     setTimeout(() => {
@@ -97,6 +98,11 @@ const App = () => {
     event.preventDefault();
     setSearchTerm(event.target.value);
   };
+
+  const handleYearInput = (event) => {
+    event.preventDefault();
+    setYear(event.target.value)
+  }
 
   const handleSearchAction = () => {
     setGenre(searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1));
@@ -117,7 +123,7 @@ const App = () => {
 
   return (
     <div style={{ textAlign: "center" }} className="main-div">
-      <h1>{searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1)} Movies 2022</h1>
+      <h1>{searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1)} Movies {year}</h1>
 
       <Input
         id="search"
@@ -128,6 +134,14 @@ const App = () => {
         inputAction={handleSearchAction}
       >
         <strong>Genre: </strong>
+      </Input>
+
+      <Input
+        id="year"
+        type="text"
+        input={handleYearInput}
+      >
+        <strong>Year: </strong>
       </Input>
 
       <hr className="divider" />
