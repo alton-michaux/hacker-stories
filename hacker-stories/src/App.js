@@ -41,12 +41,6 @@ const listReducer = (state, action) => {
         data: state.data.filter(
           (entry) => action.payload.id !== entry.id),
       };
-    case 'LIST_NOT_PRESENT':
-      return {
-        ...state,
-        isLoading: false,
-        isError: false,
-      }
     default:
       throw new Error();
   }
@@ -55,11 +49,11 @@ const listReducer = (state, action) => {
 const App = () => {
   const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "");
 
-  const [ endpoint, setEndpoint ] = useState('')
+  const [endpoint, setEndpoint] = useState('')
 
-  const [ genre, setGenre ] = useSemiPersistentState("genre", "");
+  const [genre, setGenre] = useSemiPersistentState("genre", "");
 
-  const [ year, setYear ] = useSemiPersistentState("year", "");
+  const [year, setYear] = useSemiPersistentState("year", "");
 
   const [list, dispatchList] = useReducer(
     listReducer,
@@ -68,7 +62,7 @@ const App = () => {
 
   const fetchData = useCallback(async () => {
     dispatchList({ type: 'LIST_FETCH_INIT' })
-    
+
     const options = {
       method: 'GET',
       headers: {
@@ -155,7 +149,7 @@ const App = () => {
           <strong>Year: </strong>
         </Input>
       </div>
-    
+
       <div className="search-button-div">
         <SearchButton
           identifier={genre}
