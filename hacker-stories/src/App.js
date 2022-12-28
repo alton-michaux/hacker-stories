@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useReducer, useCallback } from "react";
+import SearchButton from "./buttonComponent";
 import Input from "./inputComponent";
 import Items from "./items";
 import "./App.css"
@@ -46,13 +47,13 @@ const listReducer = (state, action) => {
 }
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "");
+  const [searchTerm, setSearchTerm] = useSemiPersistentState("genre", "");
 
   const [ endpoint, setEndpoint ] = useState('')
 
   const [ genre, setGenre ] = useState('');
 
-  const [ year, setYear ] = useState(2022);
+  const [ year, setYear ] = useSemiPersistentState("year", "");
 
   const [list, dispatchList] = useReducer(
     listReducer,
@@ -125,24 +126,30 @@ const App = () => {
     <div style={{ textAlign: "center" }} className="main-div">
       <h1>{searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1)} Movies {year}</h1>
 
-      <Input
-        id="search"
-        type="text"
-        isFocused
-        identifier={searchTerm}
-        input={handleSearchInput}
-        inputAction={handleSearchAction}
-      >
-        <strong>Genre: </strong>
-      </Input>
+      <div className="inputs">
+        <Input
+          id="search"
+          type="text"
+          isFocused
+          identifier={searchTerm}
+          input={handleSearchInput}
+        >
+          <strong>Genre: </strong>
+        </Input>
 
-      <Input
-        id="year"
-        type="text"
-        input={handleYearInput}
-      >
-        <strong>Year: </strong>
-      </Input>
+        <Input
+          id="year"
+          type="text"
+          input={handleYearInput}
+        >
+          <strong>Year: </strong>
+        </Input>
+    
+        <SearchButton
+          identifier={searchTerm}
+          inputAction={handleSearchAction}
+        ></SearchButton>
+      </div>
 
       <hr className="divider" />
 

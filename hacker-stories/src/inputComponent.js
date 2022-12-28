@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
-const Input = ({ id, children, type, identifier, input, inputAction, isFocused }) => {
+const Input = ({ id, children, type, identifier, input, isFocused }) => {
   const inputRef = useRef();
 
   useEffect(() => {
@@ -20,13 +20,6 @@ const Input = ({ id, children, type, identifier, input, inputAction, isFocused }
         autoFocus={isFocused}
         ref={inputRef}
       />
-      <button
-        className="search-button"
-        type="button"
-        disabled={!identifier}
-        onClick={inputAction}
-      > Search
-      </button>
     </div>
   );
 };

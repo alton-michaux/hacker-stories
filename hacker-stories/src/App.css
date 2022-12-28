@@ -1,6 +1,6 @@
 body {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-  background-color: #380904;
+  background-color: black;
   color: white;
   overflow: auto;
 }
@@ -13,10 +13,14 @@ body ::-webkit-scrollbar {
   margin: 5%;
   margin-top: 2%;
   margin-bottom: 5%;
-  background-color: #e2240f;
+  background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://fandomwire.com/wp-content/uploads/2018/08/Movies-background.png');
   border: 3px solid grey;
   overflow-y: scroll;
   justify-content: center;
+}
+
+.inputs {
+  justify-content: space-between;
 }
 
 .list-div {
