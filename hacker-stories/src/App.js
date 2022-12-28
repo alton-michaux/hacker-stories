@@ -48,6 +48,10 @@ const listReducer = (state, action) => {
 const App = () => {
   const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "");
 
+  const [ endpoint, setEndpoint ] = useState('')
+
+  const [ genre, setGenre ] = useState('');
+
   const [list, dispatchList] = useReducer(
     listReducer,
     { data: [], isLoading: false, isError: false }
@@ -58,22 +62,21 @@ const App = () => {
 
     dispatchList({ type: 'LIST_FETCH_INIT' })
 
-    const genre = searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1);
     const page = 1
     const year = 2022
     const type = 'movie'
     const limit = 50
-    const endpoint = `https://moviesdatabase.p.rapidapi.com/titles?&titleType=${type}&genre=${genre}&limit=${limit}&year=${year}&page=${page}`
+    setEndpoint(`https://moviesdatabase.p.rapidapi.com/titles?&titleType=${type}&genre=${genre}&limit=${limit}&year=${year}&page=${page}`)
+    
+    const options = {
+      method: 'GET',
+      headers: {
+        'X-RapidAPI-Key': 'f512439e7bmshfcd6bd4a75c5610p120950jsn4df1718c8117',
+        'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
+      }
+    };
 
     try {
-      const options = {
-        method: 'GET',
-        headers: {
-          'X-RapidAPI-Key': 'f512439e7bmshfcd6bd4a75c5610p120950jsn4df1718c8117',
-          'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
-        }
-      };
-
       const response = await fetch(endpoint, options)
 
       const data = await response.json()
@@ -82,7 +85,7 @@ const App = () => {
     } catch {
       dispatchList({ type: 'LIST_FETCH_FAILURE' })
     }
-  }, [searchTerm])
+  }, [endpoint, genre])
 
   useEffect(() => {
     setTimeout(() => {
@@ -90,10 +93,16 @@ const App = () => {
     }, 3000)
   }, [fetchData]);
 
-  const handleSearch = (event) => {
+  const handleSearchInput = (event) => {
     event.preventDefault();
     setSearchTerm(event.target.value);
   };
+
+  const handleSearchAction = () => {
+    setGenre(searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1));
+    // setEndpoint(endpoint)
+    console.log('endpoint', endpoint)
+  }
 
   const handleRemoveItem = (item) => {
     dispatchList({
@@ -110,16 +119,17 @@ const App = () => {
 
   return (
     <div style={{ textAlign: "center" }} className="main-div">
-      <h1>Horror Movies 2022</h1>
+      <h1>{searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1)} Movies 2022</h1>
 
       <Input
         id="search"
         type="text"
         isFocused
         identifier={searchTerm}
-        inputAction={handleSearch}
+        input={handleSearchInput}
+        inputAction={handleSearchAction}
       >
-        <strong>Search: </strong>
+        <strong>Genre: </strong>
       </Input>
 
       <hr className="divider" />
