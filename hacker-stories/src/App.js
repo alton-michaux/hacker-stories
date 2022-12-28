@@ -58,7 +58,7 @@ const App = () => {
   );
 
   const fetchData = useCallback(async () => {
-    if (!searchTerm) return;
+    if (!genre) return;
 
     dispatchList({ type: 'LIST_FETCH_INIT' })
 
@@ -100,8 +100,6 @@ const App = () => {
 
   const handleSearchAction = () => {
     setGenre(searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1));
-    // setEndpoint(endpoint)
-    console.log('endpoint', endpoint)
   }
 
   const handleRemoveItem = (item) => {
