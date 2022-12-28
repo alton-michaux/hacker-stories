@@ -20,7 +20,15 @@ body ::-webkit-scrollbar {
 }
 
 .inputs {
-  justify-content: space-between;
+  padding: .5%;
+}
+
+.search-button {
+  margin-top: 20px;
+}
+
+.input-div {
+  display: inline-flex;
 }
 
 .list-div {

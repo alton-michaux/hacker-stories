@@ -126,7 +126,7 @@ const App = () => {
     <div style={{ textAlign: "center" }} className="main-div">
       <h1>{searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1)} Movies {year}</h1>
 
-      <div className="inputs">
+      <div className="input-div">
         <Input
           id="search"
           type="text"
@@ -140,16 +140,17 @@ const App = () => {
         <Input
           id="year"
           type="text"
+          isFocused
           input={handleYearInput}
         >
           <strong>Year: </strong>
         </Input>
-    
-        <SearchButton
-          identifier={searchTerm}
-          inputAction={handleSearchAction}
-        ></SearchButton>
       </div>
+    
+      <SearchButton
+        identifier={searchTerm}
+        inputAction={handleSearchAction}
+      ></SearchButton>
 
       <hr className="divider" />
 

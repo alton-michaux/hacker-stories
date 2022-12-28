@@ -10,7 +10,7 @@ const Input = ({ id, children, type, identifier, input, isFocused }) => {
   }, [isFocused]);
 
   return (
-    <div>
+    <div className="inputs">
       <label htmlFor={id}>{children}</label>
       <input
         id={id}
