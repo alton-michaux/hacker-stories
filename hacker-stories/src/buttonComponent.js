@@ -1,13 +1,11 @@
-import React, { useEffect, useRef } from "react";
-
-const SearchButton = ({identifier, inputAction }) => {
+const SearchButton = ({identifier, inputAction, loading }) => {
 
   return (
     <div>
       <button
         className="search-button"
         type="button"
-        disabled={!identifier}
+        disabled={!identifier || loading}
         onClick={inputAction}
       > Search
       </button>

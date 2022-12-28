@@ -147,10 +147,13 @@ const App = () => {
         </Input>
       </div>
     
-      <SearchButton
-        identifier={searchTerm}
-        inputAction={handleSearchAction}
-      ></SearchButton>
+      <div className="search-button-div">
+        <SearchButton
+          identifier={searchTerm}
+          inputAction={handleSearchAction}
+          loading={list.isLoading}
+        ></SearchButton>
+      </div>
 
       <hr className="divider" />
 
