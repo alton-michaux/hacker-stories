@@ -1,73 +1,32 @@
 import React, { useState, useEffect, useReducer, useCallback } from "react";
+import UseSemiPersistentState from "./semiPerssistentState";
+import ListReducer from "./reducers";
 import Input from "./inputComponent";
+import SearchButton from "./buttonComponent";
 import Items from "./items";
 import "./App.css"
 
-const useSemiPersistentState = (key, initialState) => {
-  const [value, setValue] = useState(localStorage.getItem(key) || initialState);
-
-  useEffect(() => {
-    localStorage.setItem(key, value);
-  }, [value, key]);
-
-  return [value, setValue];
-};
-
-const listReducer = (state, action) => {
-  switch (action.type) {
-    case 'LIST_FETCH_INIT':
-      return {
-        ...state,
-        isLoading: true,
-        isError: false,
-      };
-    case 'LIST_FETCH_SUCCESS':
-      return {
-        ...state,
-        isLoading: false,
-        isError: false,
-        data: action.payload,
-      };
-    case 'LIST_FETCH_FAILURE':
-      return {
-        ...state,
-        isLoading: false,
-        isError: true,
-      };
-    case 'REMOVE_LIST':
-      return {
-        ...state,
-        data: state.data.filter(
-          (entry) => action.payload.id !== entry.id),
-      };
-    default:
-      throw new Error();
-  }
-}
-
 const App = () => {
-  const [searchTerm, setSearchTerm] = useSemiPersistentState("search", "");
+  // state variables
 
-  const [ endpoint, setEndpoint ] = useState('')
+  const [searchTerm, setSearchTerm] = UseSemiPersistentState("search", "");
 
-  const [ genre, setGenre ] = useState('');
+  const [genre, setGenre] = UseSemiPersistentState("genre", "");
+
+  const [year, setYear] = UseSemiPersistentState("year", "");
+
+  const [endpoint, setEndpoint] = useState('')
 
   const [list, dispatchList] = useReducer(
-    listReducer,
+    ListReducer,
     { data: [], isLoading: false, isError: false }
   );
 
-  const fetchData = useCallback(async () => {
-    if (!genre) return;
+  // function that makes the API call
 
+  const fetchData = useCallback(async () => {
     dispatchList({ type: 'LIST_FETCH_INIT' })
 
-    const page = 1
-    const year = 2022
-    const type = 'movie'
-    const limit = 50
-    setEndpoint(`https://moviesdatabase.p.rapidapi.com/titles?&titleType=${type}&genre=${genre}&limit=${limit}&year=${year}&page=${page}`)
-    
     const options = {
       method: 'GET',
       headers: {
@@ -83,9 +42,12 @@ const App = () => {
 
       dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: data.results })
     } catch {
+      if (!endpoint) {
+        dispatchList({ type: 'LIST_NO_INIT' })
+      }
       dispatchList({ type: 'LIST_FETCH_FAILURE' })
     }
-  }, [endpoint, genre])
+  }, [endpoint])
 
   useEffect(() => {
     setTimeout(() => {
@@ -93,13 +55,29 @@ const App = () => {
     }, 3000)
   }, [fetchData]);
 
+  // handlers
+
   const handleSearchInput = (event) => {
     event.preventDefault();
     setSearchTerm(event.target.value);
   };
 
-  const handleSearchAction = () => {
-    setGenre(searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1));
+  const handleYearInput = (event) => {
+    event.preventDefault();
+    setYear(event.target.value)
+  }
+
+  const handleGenreInput = (event) => {
+    event.preventDefault()
+    setGenre(event.target.value.charAt(0).toUpperCase() + event.target.value.slice(1))
+  }
+
+  const handleBuildEndpoint = () => {
+    const page = 1
+    const type = 'movie'
+    const limit = 50
+
+    setEndpoint(`https://moviesdatabase.p.rapidapi.com/titles?&titleType=${type}&genre=${genre}&limit=${limit}&year=${year}&page=${page}`)
   }
 
   const handleRemoveItem = (item) => {
@@ -109,26 +87,61 @@ const App = () => {
     })
   };
 
-  // const filteredEntries = list.data.filter((entry) => {
-  //   return (
-  //     entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
-  //   )
-  // });
+  // keyword search filter
+
+  const filteredEntries = list.data.filter((entry) => {
+    return (
+      entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  });
 
   return (
     <div style={{ textAlign: "center" }} className="main-div">
-      <h1>{searchTerm.charAt(0).toUpperCase() + searchTerm.slice(1)} Movies 2022</h1>
+      <h1>{genre} Movies {year}</h1>
 
-      <Input
-        id="search"
-        type="text"
-        isFocused
-        identifier={searchTerm}
-        input={handleSearchInput}
-        inputAction={handleSearchAction}
-      >
-        <strong>Genre: </strong>
-      </Input>
+      <div className="input-div">
+        <Input
+          id="genre"
+          type="text"
+          isFocused
+          identifier={genre}
+          input={handleGenreInput}
+        >
+          <strong>Genre: </strong>
+        </Input>
+
+        <Input
+          id="year"
+          type="text"
+          isFocused
+          identifier={year}
+          input={handleYearInput}
+        >
+          <strong>Year: </strong>
+        </Input>
+      </div>
+
+      <div className="search-button-div">
+        <SearchButton
+          identifier={genre}
+          inputAction={handleBuildEndpoint}
+          loading={list.isLoading}
+        ></SearchButton>
+      </div>
+
+      <hr className="divider" />
+
+      <div className="input-div">
+        <Input
+          id="search"
+          type="text"
+          isFocused
+          identifier={searchTerm}
+          input={handleSearchInput}
+        >
+          <strong>Search: </strong>
+        </Input>
+      </div>
 
       <hr className="divider" />
 
@@ -138,7 +151,7 @@ const App = () => {
         {list.isLoading ? (
           <p> Loading... </p>
         ) : (
-          <Items list={list.data} onRemoveItem={handleRemoveItem} />
+          <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
         )
         }
       </div>

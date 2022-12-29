@@ -9,7 +9,7 @@ const Item = ({ item, onRemoveItem }) => {
 				</> :
 				<>
 					<span>
-						<img src="https://static6.depositphotos.com/1002881/580/i/600/depositphotos_5804811-stock-photo-error-404.jpg" alt={item.titleText.text} width="100%" height="70%" />
+						<img src="https://img.freepik.com/free-vector/oops-404-error-with-broken-robot-concept-illustration_114360-5529.jpg?w=2000" alt={item.titleText.text} width="100%" height="70%" />
 					</span>
 				</>
 			}
