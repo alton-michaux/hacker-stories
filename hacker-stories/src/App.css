@@ -56,6 +56,10 @@ body ::-webkit-scrollbar {
   -webkit-transition: height 0.5s;
 }
 
+.item:hover {
+  border: 2px solid white;
+}
+
 .item-title {
   margin-top: 10px;
 }
@@ -65,4 +69,9 @@ body ::-webkit-scrollbar {
   border-radius: 10%;
   background-color: #8d1609;
   color: white;
+}
+
+.delete-btn:hover {
+  border: 1px solid red;
+  cursor: pointer;
 }
