@@ -7,18 +7,22 @@ import Items from "./items";
 import "./App.css"
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = UseSemiPersistentState("search", "");
+  // state variables
 
-  const [endpoint, setEndpoint] = useState('')
+  const [searchTerm, setSearchTerm] = UseSemiPersistentState("search", "");
 
   const [genre, setGenre] = UseSemiPersistentState("genre", "");
 
   const [year, setYear] = UseSemiPersistentState("year", "");
 
+  const [endpoint, setEndpoint] = useState('')
+
   const [list, dispatchList] = useReducer(
     ListReducer,
     { data: [], isLoading: false, isError: false }
   );
+
+  // function that makes the API call
 
   const fetchData = useCallback(async () => {
     dispatchList({ type: 'LIST_FETCH_INIT' })
@@ -47,6 +51,8 @@ const App = () => {
       fetchData();
     }, 3000)
   }, [fetchData]);
+
+  // handlers
 
   const handleSearchInput = (event) => {
     event.preventDefault();
