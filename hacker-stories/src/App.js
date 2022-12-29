@@ -42,6 +42,9 @@ const App = () => {
 
       dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: data.results })
     } catch {
+      if (!endpoint) {
+        dispatchList({ type: 'LIST_NO_INIT' })
+      }
       dispatchList({ type: 'LIST_FETCH_FAILURE' })
     }
   }, [endpoint])
@@ -69,7 +72,7 @@ const App = () => {
     setGenre(event.target.value.charAt(0).toUpperCase() + event.target.value.slice(1))
   }
 
-  const handleSearchAction = () => {
+  const handleBuildEndpoint = () => {
     const page = 1
     const type = 'movie'
     const limit = 50
@@ -83,6 +86,8 @@ const App = () => {
       payload: item
     })
   };
+
+  // keyword search filter
 
   const filteredEntries = list.data.filter((entry) => {
     return (
@@ -119,7 +124,7 @@ const App = () => {
       <div className="search-button-div">
         <SearchButton
           identifier={genre}
-          inputAction={handleSearchAction}
+          inputAction={handleBuildEndpoint}
           loading={list.isLoading}
         ></SearchButton>
       </div>

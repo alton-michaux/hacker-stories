@@ -19,6 +19,12 @@ const ListReducer = (state, action) => {
         isLoading: false,
         isError: true,
       };
+    case 'LIST_NO_INIT':
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+      };
     case 'REMOVE_LIST':
       return {
         ...state,
