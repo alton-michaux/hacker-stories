@@ -23,6 +23,10 @@ body ::-webkit-scrollbar {
   padding: .5%;
 }
 
+.inputs input {
+  text-align: center;
+}
+
 .search-button {
   margin-top: 20px;
 }
