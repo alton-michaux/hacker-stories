@@ -1,11 +1,20 @@
 const ListReducer = (state, action) => {
   switch (action.type) {
     case 'LIST_FETCH_INIT':
+      const savedList = JSON.parse(localStorage.getItem('list'))
+      if (savedList) {
+        return {
+          ...state,
+          isLoading: false,
+          isError: false,
+          data: savedList,
+        };
+      } else
       return {
         ...state,
         isLoading: true,
         isError: false,
-      };
+      }
     case 'LIST_FETCH_SUCCESS':
       return {
         ...state,

@@ -27,6 +27,8 @@ const App = () => {
   const fetchData = useCallback(async () => {
     dispatchList({ type: 'LIST_FETCH_INIT' })
 
+    if (!endpoint) return
+  
     const options = {
       method: 'GET',
       headers: {
@@ -84,6 +86,10 @@ const App = () => {
     })
   };
 
+  const handleSaveList = () => {
+    localStorage.setItem('list', JSON.stringify(filteredEntries))
+  }
+
   const filteredEntries = list.data.filter((entry) => {
     return (
       entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
@@ -116,12 +122,12 @@ const App = () => {
         </Input>
       </div>
 
-      <div className="search-button-div">
+      <div className="button-div">
         <SearchButton
           identifier={genre}
           inputAction={handleSearchAction}
           loading={list.isLoading}
-        ></SearchButton>
+        >Search</SearchButton>
       </div>
 
       <hr className="divider" />
@@ -149,6 +155,13 @@ const App = () => {
           <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
         )
         }
+      </div>
+
+      <div className="button-div">
+        <SearchButton
+          identifier={filteredEntries}
+          inputAction={handleSaveList}
+        >Save</SearchButton>
       </div>
     </div>
   );
