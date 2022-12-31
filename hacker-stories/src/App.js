@@ -98,60 +98,59 @@ const App = () => {
 
   return (
     <div style={{ textAlign: "center" }} className="main-div">
-      <h1>{genre} Movies {year}</h1>
+      <div className="info-div">
+        <div className="input-div">
+          <Input
+            id="genre"
+            type="text"
+            isFocused
+            identifier={genre}
+            input={handleGenreInput}
+          >
+            <strong>Genre: </strong>
+          </Input>
 
-      <div className="input-div">
-        <Input
-          id="genre"
-          type="text"
-          isFocused
-          identifier={genre}
-          input={handleGenreInput}
-        >
-          <strong>Genre: </strong>
-        </Input>
+          <Input
+            id="year"
+            type="text"
+            isFocused
+            identifier={year}
+            input={handleYearInput}
+          >
+            <strong>Year: </strong>
+          </Input>
+        </div>
 
-        <Input
-          id="year"
-          type="text"
-          isFocused
-          identifier={year}
-          input={handleYearInput}
-        >
-          <strong>Year: </strong>
-        </Input>
+        <div className="button-div">
+          <SearchButton
+            identifier={genre}
+            inputAction={handleSearchAction}
+            loading={list.isLoading}
+          >Search</SearchButton>
+        </div>
+
+        <hr className="divider" />
+
+        <div className="search-save-div">
+          <Input
+            id="search"
+            type="text"
+            isFocused
+            identifier={searchTerm}
+            input={handleSearchInput}
+          >
+            <strong>Search: </strong>
+          </Input>
+          
+          <SearchButton
+            identifier={filteredEntries}
+            inputAction={handleSaveList}
+          >Save List</SearchButton>
+        </div>
       </div>
-
-      <div className="button-div">
-        <SearchButton
-          identifier={genre}
-          inputAction={handleSearchAction}
-          loading={list.isLoading}
-        >Search</SearchButton>
-      </div>
-
-      <hr className="divider" />
-
-      <div className="search-save-div">
-        <Input
-          id="search"
-          type="text"
-          isFocused
-          identifier={searchTerm}
-          input={handleSearchInput}
-        >
-          <strong>Search: </strong>
-        </Input>
-        
-        <SearchButton
-          identifier={filteredEntries}
-          inputAction={handleSaveList}
-        >Save List</SearchButton>
-      </div>
-
-      <hr className="divider" />
 
       <div className="list-div">
+        <h1>{genre} Movies {year}</h1>
         {list.isError && <p>Something went wrong ...</p>}
 
         {list.isLoading ? (
