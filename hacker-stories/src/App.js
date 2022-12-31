@@ -9,7 +9,7 @@ import "./App.css"
 const App = () => {
   // state variables
 
-  const [searchTerm, setSearchTerm] = UseSemiPersistentState("search", "");
+  const [searchTerm, setSearchTerm] = useState('');
 
   const [genre, setGenre] = UseSemiPersistentState("genre", "");
 
@@ -132,7 +132,7 @@ const App = () => {
 
       <hr className="divider" />
 
-      <div className="input-div">
+      <div className="search-save-div">
         <Input
           id="search"
           type="text"
@@ -142,6 +142,11 @@ const App = () => {
         >
           <strong>Search: </strong>
         </Input>
+        
+        <SearchButton
+          identifier={filteredEntries}
+          inputAction={handleSaveList}
+        >Save List</SearchButton>
       </div>
 
       <hr className="divider" />
@@ -155,13 +160,6 @@ const App = () => {
           <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
         )
         }
-      </div>
-
-      <div className="button-div">
-        <SearchButton
-          identifier={filteredEntries}
-          inputAction={handleSaveList}
-        >Save</SearchButton>
       </div>
     </div>
   );

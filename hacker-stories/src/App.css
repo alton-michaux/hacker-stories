@@ -31,8 +31,18 @@ body ::-webkit-scrollbar {
   margin-top: 20px;
 }
 
+.button-div {
+  display: flex;
+  flex-direction: column;
+}
+
 .input-div {
   display: inline-flex;
+}
+
+.search-save-div {
+  display: inline-flex;
+  flex-direction: column;
 }
 
 .list-div {
