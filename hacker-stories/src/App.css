@@ -9,12 +9,23 @@ body ::-webkit-scrollbar {
   display: none;
 }
 
+button {
+  background-color: transparent;
+  color: white;
+  border: solid 1px white;
+  padding: 2%;
+}
+
+button:hover {
+  border: 1px solid red;
+  cursor: pointer;
+}
+
 .main-div {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  margin: 5%;
-  margin-top: 2%;
-  margin-bottom: 5%;
+  margin-right: 5%;
+  margin-left: 5%;
   background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://fandomwire.com/wp-content/uploads/2018/08/Movies-background.png');
   background-attachment: fixed;
   justify-content: center;
@@ -25,10 +36,10 @@ body ::-webkit-scrollbar {
   position: fixed;
   display: flex;
   flex-direction: column;
-  width: 400px;
+  width: 450px;
   height:100vh;
-  left: 10%;
-  margin-top: 5%;
+  left: 5%;
+  margin-top: 2%;
 }
 
 .inputs {
@@ -62,7 +73,7 @@ body ::-webkit-scrollbar {
   position: fixed;
   right: 5%;
   top: 0;
-  height:100vh;
+  height: 100vh;
   width: 900px;
 }
 
@@ -78,6 +89,11 @@ body ::-webkit-scrollbar {
   row-gap: 1px;
   padding-left: 0;
   min-height: 100px;
+}
+
+.headline {
+  position: sticky;
+  margin-top: 5%;
 }
 
 .item {
@@ -99,9 +115,4 @@ body ::-webkit-scrollbar {
   border-radius: 10%;
   background-color: #8d1609;
   color: white;
-}
-
-.delete-btn:hover {
-  border: 1px solid red;
-  cursor: pointer;
 }

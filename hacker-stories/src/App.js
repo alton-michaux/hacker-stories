@@ -22,13 +22,19 @@ const App = () => {
     { data: [], isLoading: false, isError: false }
   );
 
-  // function that makes the API call
+  // custom functions
+
+  const filteredEntries = list.data.filter((entry) => {
+    return (
+      entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  });
 
   const fetchData = useCallback(async () => {
     dispatchList({ type: 'LIST_FETCH_INIT' })
 
     if (!endpoint) return
-  
+
     const options = {
       method: 'GET',
       headers: {
@@ -90,15 +96,10 @@ const App = () => {
     localStorage.setItem('list', JSON.stringify(filteredEntries))
   }
 
-  const filteredEntries = list.data.filter((entry) => {
-    return (
-      entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  });
-
   return (
     <div style={{ textAlign: "center" }} className="main-div">
       <div className="info-div">
+        <h1 className="headline">{genre} Movies {year}</h1>
         <div className="input-div">
           <Input
             id="genre"
@@ -141,7 +142,7 @@ const App = () => {
           >
             <strong>Search: </strong>
           </Input>
-          
+
           <SearchButton
             identifier={filteredEntries}
             inputAction={handleSaveList}
@@ -150,7 +151,6 @@ const App = () => {
       </div>
 
       <div className="list-div">
-        <h1>{genre} Movies {year}</h1>
         {list.isError && <p>Something went wrong ...</p>}
 
         {list.isLoading ? (
