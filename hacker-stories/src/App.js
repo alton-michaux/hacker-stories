@@ -94,13 +94,14 @@ const App = () => {
 
   const handleSaveList = () => {
     localStorage.setItem('list', JSON.stringify(filteredEntries))
+    alert("List Saved!")
   }
 
   return (
-    <div style={{ textAlign: "center" }} className="main-div">
-      <div className="info-div">
+    <main style={{ textAlign: "center" }} className="main-div">
+      <section className="info-div">
         <h1 className="headline">{genre} Movies {year}</h1>
-        <div className="input-div">
+        <aside className="input-div">
           <Input
             id="genre"
             type="text"
@@ -120,19 +121,19 @@ const App = () => {
           >
             <strong>Year: </strong>
           </Input>
-        </div>
+        </aside>
 
-        <div className="button-div">
+        <aside className="button-div">
           <SearchButton
             identifier={genre}
             inputAction={handleSearchAction}
             loading={list.isLoading}
           >Search</SearchButton>
-        </div>
+        </aside>
 
         <hr className="divider" />
 
-        <div className="search-save-div">
+        <aside className="search-save-div">
           <Input
             id="search"
             type="text"
@@ -147,10 +148,10 @@ const App = () => {
             identifier={filteredEntries}
             inputAction={handleSaveList}
           >Save List</SearchButton>
-        </div>
-      </div>
+        </aside>
+      </section>
 
-      <div className="list-div">
+      <section className="list-div">
         {list.isError && <p>Something went wrong ...</p>}
 
         {list.isLoading ? (
@@ -159,8 +160,8 @@ const App = () => {
           <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
         )
         }
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 
