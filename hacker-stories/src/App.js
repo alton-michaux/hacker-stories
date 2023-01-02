@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useReducer, useCallback } from "react";
+import axios from 'axios';
 import UseSemiPersistentState from "./semiPerssistentState";
 import ListReducer from "./reducers";
 import Input from "./inputComponent";
@@ -19,7 +20,7 @@ const App = () => {
 
   const [list, dispatchList] = useReducer(
     ListReducer,
-    { data: [], isLoading: false, isError: false }
+    { data: [], isLoading: false, isError: false, isBlank: false }
   );
 
   // custom functions
@@ -33,23 +34,24 @@ const App = () => {
   const fetchData = useCallback(async () => {
     dispatchList({ type: 'LIST_FETCH_INIT' })
 
-    if (!endpoint) return
-
-    const options = {
-      method: 'GET',
-      headers: {
-        'X-RapidAPI-Key': 'f512439e7bmshfcd6bd4a75c5610p120950jsn4df1718c8117',
-        'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
-      }
-    };
+    if (!endpoint) {
+      dispatchList({ type: 'LIST_NO_RESULTS' })
+    }
 
     try {
-      const response = await fetch(endpoint, options)
-
-      const data = await response.json()
-
-      dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: data.results })
-    } catch {
+      const response = await axios.get(endpoint, {
+        headers: {
+          'X-RapidAPI-Key': 'f512439e7bmshfcd6bd4a75c5610p120950jsn4df1718c8117',
+          'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
+        }
+      })
+      
+      console.log('response', response.headers)
+      // const data = await response.json()
+      // console.log('data', data)
+      dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: response.data })
+    } catch (error) {
+      console.log('error', error)
       dispatchList({ type: 'LIST_FETCH_FAILURE' })
     }
   }, [endpoint])
@@ -152,7 +154,9 @@ const App = () => {
       </section>
 
       <section className="list-div">
-        {list.isError && <p>Something went wrong ...</p>}
+        {list.isError && <p>Something went wrong...</p>}
+
+        {list.isBlank && <p>No data.</p>}
 
         {list.isLoading ? (
           <p> Loading... </p>

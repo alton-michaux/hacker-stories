@@ -7,6 +7,7 @@ const ListReducer = (state, action) => {
           ...state,
           isLoading: false,
           isError: false,
+          isBlank: false,
           data: savedList,
         };
       } else
@@ -14,12 +15,14 @@ const ListReducer = (state, action) => {
         ...state,
         isLoading: true,
         isError: false,
+        isBlank: false,
       }
     case 'LIST_FETCH_SUCCESS':
       return {
         ...state,
         isLoading: false,
         isError: false,
+        isBlank: false,
         data: action.payload,
       };
     case 'LIST_FETCH_FAILURE':
@@ -27,7 +30,16 @@ const ListReducer = (state, action) => {
         ...state,
         isLoading: false,
         isError: true,
+        isBlank: false,
       };
+    case 'LIST_NO_RESULTS':
+      console.log('no endpoint')
+      return {
+        ...state,
+        isLoading: false,
+        isError: false,
+        isBlank: true,
+      }
     case 'REMOVE_LIST':
       return {
         ...state,
