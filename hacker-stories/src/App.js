@@ -46,10 +46,10 @@ const App = () => {
         }
       })
       
-      console.log('response', response.headers)
+      console.log('response', JSON.parse(response.data))
       // const data = await response.json()
       // console.log('data', data)
-      dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: response.data })
+      dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: JSON.parse(response.data) })
     } catch (error) {
       console.log('error', error)
       dispatchList({ type: 'LIST_FETCH_FAILURE' })
