@@ -5,6 +5,7 @@ import Input from "./inputComponent";
 import SearchButton from "./buttonComponent";
 import Items from "./items";
 import "./App.css"
+import axios from 'axios';
 
 const App = () => {
   // state variables
@@ -36,11 +37,9 @@ const App = () => {
     };
 
     try {
-      const response = await fetch(endpoint, options)
-
-      const data = await response.json()
-
-      dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: data.results })
+      const response = await axios(endpoint, options)
+      console.log('response', await response)
+      dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: response.data.results })
     } catch {
       if (!endpoint) {
         dispatchList({ type: 'LIST_NO_INIT' })
@@ -88,12 +87,14 @@ const App = () => {
   };
 
   // keyword search filter
-
-  const filteredEntries = list.data.filter((entry) => {
-    return (
-      entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  });
+  const filteredEntries = () => {
+    if (list.length === 0) return
+    list.data.filter((entry) => {
+      return (
+        entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    })
+  };
 
   return (
     <div style={{ textAlign: "center" }} className="main-div">
@@ -146,6 +147,7 @@ const App = () => {
       <hr className="divider" />
 
       <div className="list-div">
+        list ?
         {list.isError && <p>Something went wrong ...</p>}
 
         {list.isLoading ? (
@@ -153,6 +155,10 @@ const App = () => {
         ) : (
           <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
         )
+        } : {
+          (
+            <p>No Data</p>
+          )
         }
       </div>
     </div>
