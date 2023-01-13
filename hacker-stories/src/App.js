@@ -94,10 +94,6 @@ const App = () => {
     )
   });
 
-  useEffect(() => {
-    console.log('list', list, 'filteredEntries', filteredEntries)
-  }, [list])
-
   return (
     <div style={{ textAlign: "center" }} className="main-div">
       <h1>{genre} Movies {year}</h1>
