@@ -72,12 +72,14 @@ const App = () => {
     setGenre(event.target.value.charAt(0).toUpperCase() + event.target.value.slice(1))
   }
 
-  const handleBuildEndpoint = () => {
+  const handleBuildEndpoint = (event) => {
     const page = 1
     const type = 'movie'
     const limit = 50
 
     setEndpoint(`https://moviesdatabase.p.rapidapi.com/titles?&titleType=${type}&genre=${genre}&limit=${limit}&year=${year}&page=${page}`)
+
+    event.preventDefault()
   }
 
   const handleRemoveItem = (item) => {
@@ -98,35 +100,36 @@ const App = () => {
     <div style={{ textAlign: "center" }} className="main-div">
       <h1>{genre} Movies {year}</h1>
 
-      <div className="input-div">
-        <Input
-          id="genre"
-          type="text"
-          isFocused
-          identifier={genre}
-          input={handleGenreInput}
-        >
-          <strong>Genre: </strong>
-        </Input>
+      <form onSubmit={handleBuildEndpoint}>
+        <div className="input-div">
+          <Input
+            id="genre"
+            type="text"
+            isFocused
+            identifier={genre}
+            input={handleGenreInput}
+          >
+            <strong>Genre: </strong>
+          </Input>
 
-        <Input
-          id="year"
-          type="text"
-          isFocused
-          identifier={year}
-          input={handleYearInput}
-        >
-          <strong>Year: </strong>
-        </Input>
-      </div>
+          <Input
+            id="year"
+            type="text"
+            isFocused
+            identifier={year}
+            input={handleYearInput}
+          >
+            <strong>Year: </strong>
+          </Input>
+        </div>
 
-      <div className="search-button-div">
-        <SearchButton
-          identifier={genre}
-          inputAction={handleBuildEndpoint}
-          loading={list.isLoading}
-        ></SearchButton>
-      </div>
+        <div className="search-button-div">
+          <SearchButton
+            identifier={genre}
+            loading={list.isLoading}
+          >Search</SearchButton>
+        </div>
+      </form>
 
       <hr className="divider" />
 

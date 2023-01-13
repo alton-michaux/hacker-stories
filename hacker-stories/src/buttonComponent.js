@@ -1,13 +1,12 @@
-const SearchButton = ({ identifier, inputAction, loading }) => {
+const SearchButton = ({ identifier, loading, children }) => {
 
   return (
     <div>
       <button
         className="search-button"
-        type="button"
+        type="submit"
         disabled={!identifier || loading}
-        onClick={inputAction}
-      > Search
+      > {children}
       </button>
     </div>
   );
