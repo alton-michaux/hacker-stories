@@ -20,7 +20,7 @@ const App = () => {
 
   const [list, dispatchList] = useReducer(
     ListReducer,
-    { data: [], isLoading: false, isError: false }
+    { data: [], isLoading: false, isError: false, isEmpty: false }
   );
 
   // function that makes the API call
@@ -38,8 +38,12 @@ const App = () => {
 
     try {
       const response = await axios(endpoint, options)
-      console.log('response', await response)
-      dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: response.data.results })
+      console.log('response', response.data.results)
+      if (response.data.page) {
+        dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: response.data.results })
+      } else {
+        dispatchList({ type: 'LIST_NO_INIT' })
+      }
     } catch {
       if (!endpoint) {
         dispatchList({ type: 'LIST_NO_INIT' })
@@ -88,7 +92,7 @@ const App = () => {
 
   // keyword search filter
   const filteredEntries = () => {
-    if (list.length === 0) return
+    if (list.isEmpty) return
     list.data.filter((entry) => {
       return (
         entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
@@ -147,19 +151,15 @@ const App = () => {
       <hr className="divider" />
 
       <div className="list-div">
-        list ?
-        {list.isError && <p>Something went wrong ...</p>}
-
         {list.isLoading ? (
           <p> Loading... </p>
         ) : (
           <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
         )
-        } : {
-          (
-            <p>No Data</p>
-          )
         }
+
+        {list.isEmpty && <p>No Data</p>}
+        {list.isError && <p>Something went wrong ...</p>}
       </div>
     </div>
   );
