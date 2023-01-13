@@ -1,5 +1,4 @@
 const ListReducer = (state, action) => {
-  if (state.data.length === 0) { action.type = 'LIST_NO_INIT'}
   switch (action.type) {
     case 'LIST_FETCH_INIT':
       return {

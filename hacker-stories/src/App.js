@@ -38,16 +38,13 @@ const App = () => {
 
     try {
       const response = await axios(endpoint, options)
-      console.log('response', response.data.results)
+
       if (response.data.page) {
         dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: response.data.results })
       } else {
         dispatchList({ type: 'LIST_NO_INIT' })
       }
     } catch {
-      if (!endpoint) {
-        dispatchList({ type: 'LIST_NO_INIT' })
-      }
       dispatchList({ type: 'LIST_FETCH_FAILURE' })
     }
   }, [endpoint])
@@ -91,14 +88,15 @@ const App = () => {
   };
 
   // keyword search filter
-  const filteredEntries = () => {
-    if (list.isEmpty) return
-    list.data.filter((entry) => {
-      return (
-        entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    })
-  };
+  const filteredEntries = list.data.filter((entry) => {
+    return (
+      entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  });
+
+  useEffect(() => {
+    console.log('list', list, 'filteredEntries', filteredEntries)
+  }, [list])
 
   return (
     <div style={{ textAlign: "center" }} className="main-div">
@@ -159,7 +157,7 @@ const App = () => {
         }
 
         {list.isEmpty && <p>No Data</p>}
-        {list.isError && <p>Something went wrong ...</p>}
+        {list.isError && <p>Something went wrong...</p>}
       </div>
     </div>
   );
