@@ -2,8 +2,8 @@ import React, { useState, useEffect, useReducer, useCallback } from "react";
 import UseSemiPersistentState from "./semiPerssistentState";
 import ListReducer from "./reducers";
 import Input from "./inputComponent";
-import SearchButton from "./buttonComponent";
 import Items from "./items";
+import SearchForm from "./searchForm";
 import "./App.css"
 import axios from 'axios';
 
@@ -100,36 +100,12 @@ const App = () => {
     <div style={{ textAlign: "center" }} className="main-div">
       <h1>{genre} Movies {year}</h1>
 
-      <form onSubmit={handleBuildEndpoint}>
-        <div className="input-div">
-          <Input
-            id="genre"
-            type="text"
-            isFocused
-            identifier={genre}
-            input={handleGenreInput}
-          >
-            <strong>Genre: </strong>
-          </Input>
-
-          <Input
-            id="year"
-            type="text"
-            isFocused
-            identifier={year}
-            input={handleYearInput}
-          >
-            <strong>Year: </strong>
-          </Input>
-        </div>
-
-        <div className="search-button-div">
-          <SearchButton
-            identifier={genre}
-            loading={list.isLoading}
-          >Search</SearchButton>
-        </div>
-      </form>
+      <SearchForm
+        handleEvent={handleBuildEndpoint}
+        inputIDs={[genre, year]}
+        handleInputs={[handleGenreInput, handleYearInput]}
+        list={list}
+      ></SearchForm>
 
       <hr className="divider" />
 
