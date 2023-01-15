@@ -2,9 +2,10 @@ import React, { useState, useEffect, useReducer, useCallback } from "react";
 import UseSemiPersistentState from "./semiPerssistentState";
 import ListReducer from "./reducers";
 import Input from "./inputComponent";
-import SearchButton from "./buttonComponent";
 import Items from "./items";
+import SearchForm from "./searchForm";
 import "./App.css"
+import axios from 'axios';
 
 const App = () => {
   // state variables
@@ -19,7 +20,7 @@ const App = () => {
 
   const [list, dispatchList] = useReducer(
     ListReducer,
-    { data: [], isLoading: false, isError: false }
+    { data: [], isLoading: false, isError: false, isEmpty: false }
   );
 
   // function that makes the API call
@@ -36,15 +37,14 @@ const App = () => {
     };
 
     try {
-      const response = await fetch(endpoint, options)
+      const response = await axios(endpoint, options)
 
-      const data = await response.json()
-
-      dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: data.results })
-    } catch {
-      if (!endpoint) {
+      if (response.data.page) {
+        dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: response.data.results })
+      } else {
         dispatchList({ type: 'LIST_NO_INIT' })
       }
+    } catch {
       dispatchList({ type: 'LIST_FETCH_FAILURE' })
     }
   }, [endpoint])
@@ -72,12 +72,14 @@ const App = () => {
     setGenre(event.target.value.charAt(0).toUpperCase() + event.target.value.slice(1))
   }
 
-  const handleBuildEndpoint = () => {
+  const handleBuildEndpoint = (event) => {
     const page = 1
     const type = 'movie'
     const limit = 50
 
     setEndpoint(`https://moviesdatabase.p.rapidapi.com/titles?&titleType=${type}&genre=${genre}&limit=${limit}&year=${year}&page=${page}`)
+
+    event.preventDefault()
   }
 
   const handleRemoveItem = (item) => {
@@ -88,7 +90,6 @@ const App = () => {
   };
 
   // keyword search filter
-
   const filteredEntries = list.data.filter((entry) => {
     return (
       entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
@@ -99,35 +100,12 @@ const App = () => {
     <div style={{ textAlign: "center" }} className="main-div">
       <h1>{genre} Movies {year}</h1>
 
-      <div className="input-div">
-        <Input
-          id="genre"
-          type="text"
-          isFocused
-          identifier={genre}
-          input={handleGenreInput}
-        >
-          <strong>Genre: </strong>
-        </Input>
-
-        <Input
-          id="year"
-          type="text"
-          isFocused
-          identifier={year}
-          input={handleYearInput}
-        >
-          <strong>Year: </strong>
-        </Input>
-      </div>
-
-      <div className="search-button-div">
-        <SearchButton
-          identifier={genre}
-          inputAction={handleBuildEndpoint}
-          loading={list.isLoading}
-        ></SearchButton>
-      </div>
+      <SearchForm
+        handleEvent={handleBuildEndpoint}
+        inputIDs={[genre, year]}
+        handleInputs={[handleGenreInput, handleYearInput]}
+        list={list}
+      ></SearchForm>
 
       <hr className="divider" />
 
@@ -146,14 +124,15 @@ const App = () => {
       <hr className="divider" />
 
       <div className="list-div">
-        {list.isError && <p>Something went wrong ...</p>}
-
         {list.isLoading ? (
           <p> Loading... </p>
         ) : (
           <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
         )
         }
+
+        {list.isEmpty && <p>No Data</p>}
+        {list.isError && <p>Something went wrong...</p>}
       </div>
     </div>
   );
