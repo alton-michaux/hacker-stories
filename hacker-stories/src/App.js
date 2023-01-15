@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useReducer, useCallback } from "react";
-import axios from 'axios';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import axios from "axios";
 import UseSemiPersistentState from "./semiPerssistentState";
 import ListReducer from "./reducers";
 import Input from "./inputComponent";
@@ -92,53 +93,63 @@ const App = () => {
     localStorage.setItem('list', JSON.stringify(filteredEntries))
     alert("List Saved!")
   }
-console.log('list', list)
+
   return (
-    <main style={{ textAlign: "center" }} className="main-div">
-      <section className="info-div">
-        <h1 className="headline">{genre} Movies {year}</h1>
-        <SearchForm
-          identifiers={[genre, year]}
-          inputs={[handleGenreInput, handleYearInput]}
-          handleEvent={handleSearchAction}
-          list={list}
-          className="input-div"
-          ids={["genre", "year"]}
-        ></SearchForm>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          exact
+          path='/'
+          element={
+            <main style={{ textAlign: "center" }} className="main-div">
+              <section className="info-div">
+                <h1 className="headline">{genre} Movies {year}</h1>
+                <SearchForm
+                  identifiers={[genre, year]}
+                  inputs={[handleGenreInput, handleYearInput]}
+                  handleEvent={handleSearchAction}
+                  list={list}
+                  className="input-div"
+                  ids={["genre", "year"]}
+                ></SearchForm>
 
-        <hr className="divider" />
+                <hr className="divider" />
 
-        <aside className="search-save-div">
-          <Input
-            id="search"
-            type="text"
-            isFocused
-            identifier={searchTerm}
-            input={handleSearchInput}
-          >
-            <strong>Search: </strong>
-          </Input>
+                <aside className="search-save-div">
+                  <Input
+                    id="search"
+                    type="text"
+                    isFocused
+                    identifier={searchTerm}
+                    input={handleSearchInput}
+                  >
+                    <strong>Search: </strong>
+                  </Input>
 
-          <SearchButton
-            identifier={filteredEntries}
-            inputAction={handleSaveList}
-          >Save List</SearchButton>
-        </aside>
-      </section>
+                  <SearchButton
+                    identifier={filteredEntries}
+                    inputAction={handleSaveList}
+                  >Save List</SearchButton>
+                </aside>
+              </section>
 
-      <section className="list-div">
-        {list.isError && <p>Something went wrong...</p>}
+              <section className="list-div">
+                {list.isError && <p>Something went wrong...</p>}
 
-        {list.isBlank && <p>No data.</p>}
+                {list.isBlank && <p>No data.</p>}
 
-        {list.isLoading ? (
-          <p> Loading... </p>
-        ) : (
-          <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
-        )
-        }
-      </section>
-    </main>
+                {list.isLoading ? (
+                  <p> Loading... </p>
+                ) : (
+                  <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
+                )
+                }
+              </section>
+            </main>
+          }
+        ></Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 
