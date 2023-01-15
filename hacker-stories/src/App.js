@@ -45,7 +45,6 @@ console.log('list', list)
           'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
         }
       })
-      console.log('entries', response.data)
       dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: [...response.data.results] })
     } catch (error) {
       dispatchList({ type: 'LIST_FETCH_FAILURE' })
