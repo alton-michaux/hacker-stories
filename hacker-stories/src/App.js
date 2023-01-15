@@ -24,7 +24,7 @@ const App = () => {
   );
 
   // custom functions
-
+console.log('list', list)
   const filteredEntries = list.data.filter((entry) => {
     return (
       entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
@@ -45,13 +45,9 @@ const App = () => {
           'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
         }
       })
-      
-      console.log('response', JSON.parse(response.data))
-      // const data = await response.json()
-      // console.log('data', data)
-      dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: JSON.parse(response.data) })
+      console.log('entries', response.data)
+      dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: [...response.data.results] })
     } catch (error) {
-      console.log('error', error)
       dispatchList({ type: 'LIST_FETCH_FAILURE' })
     }
   }, [endpoint])
