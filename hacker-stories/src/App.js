@@ -6,6 +6,7 @@ import Input from "./inputComponent";
 import SearchButton from "./buttonComponent";
 import Items from "./items";
 import "./App.css"
+import SearchForm from "./searchForm";
 
 const App = () => {
   // state variables
@@ -24,7 +25,6 @@ const App = () => {
   );
 
   // custom functions
-console.log('list', list)
   const filteredEntries = list.data.filter((entry) => {
     return (
       entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
@@ -37,7 +37,6 @@ console.log('list', list)
     if (!endpoint) {
       dispatchList({ type: 'LIST_NO_RESULTS' })
     }
-
     try {
       const response = await axios.get(endpoint, {
         headers: {
@@ -93,40 +92,19 @@ console.log('list', list)
     localStorage.setItem('list', JSON.stringify(filteredEntries))
     alert("List Saved!")
   }
-
+console.log('list', list)
   return (
     <main style={{ textAlign: "center" }} className="main-div">
       <section className="info-div">
         <h1 className="headline">{genre} Movies {year}</h1>
-        <aside className="input-div">
-          <Input
-            id="genre"
-            type="text"
-            isFocused
-            identifier={genre}
-            input={handleGenreInput}
-          >
-            <strong>Genre: </strong>
-          </Input>
-
-          <Input
-            id="year"
-            type="text"
-            isFocused
-            identifier={year}
-            input={handleYearInput}
-          >
-            <strong>Year: </strong>
-          </Input>
-        </aside>
-
-        <aside className="button-div">
-          <SearchButton
-            identifier={genre}
-            inputAction={handleSearchAction}
-            loading={list.isLoading}
-          >Search</SearchButton>
-        </aside>
+        <SearchForm
+          identifiers={[genre, year]}
+          inputs={[handleGenreInput, handleYearInput]}
+          handleEvent={handleSearchAction}
+          list={list}
+          className="input-div"
+          ids={["genre", "year"]}
+        ></SearchForm>
 
         <hr className="divider" />
 

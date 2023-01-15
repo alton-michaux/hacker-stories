@@ -15,7 +15,7 @@ const ListReducer = (state, action) => {
         ...state,
         isLoading: true,
         isError: false,
-        isBlank: false,
+        isBlank: true,
       }
     case 'LIST_FETCH_SUCCESS':
       return {
@@ -33,7 +33,6 @@ const ListReducer = (state, action) => {
         isBlank: false,
       };
     case 'LIST_NO_RESULTS':
-      console.log('no endpoint')
       return {
         ...state,
         isLoading: false,
