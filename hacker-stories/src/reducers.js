@@ -1,18 +1,28 @@
 const ListReducer = (state, action) => {
   switch (action.type) {
     case 'LIST_FETCH_INIT':
+      const savedList = JSON.parse(localStorage.getItem('list'))
+      if (savedList) {
+        return {
+          ...state,
+          isLoading: false,
+          isError: false,
+          isBlank: false,
+          data: savedList,
+        };
+      } else
       return {
         ...state,
         isLoading: true,
         isError: false,
-        isEmpty: false,
-      };
+        isBlank: true,
+      }
     case 'LIST_FETCH_SUCCESS':
       return {
         ...state,
         isLoading: false,
         isError: false,
-        isEmpty: false,
+        isBlank: false,
         data: action.payload,
       };
     case 'LIST_FETCH_FAILURE':
@@ -20,15 +30,15 @@ const ListReducer = (state, action) => {
         ...state,
         isLoading: false,
         isError: true,
-        isEmpty: false,
+        isBlank: false,
       };
-    case 'LIST_NO_INIT':
+    case 'LIST_NO_RESULTS':
       return {
         ...state,
         isLoading: false,
         isError: false,
-        isEmpty: true,
-      };
+        isBlank: true,
+      }
     case 'REMOVE_LIST':
       return {
         ...state,

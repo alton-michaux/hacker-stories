@@ -1,37 +1,38 @@
 import Input from "./inputComponent"
 import SearchButton from "./buttonComponent"
 
-const SearchForm = ({handleEvent, inputIDs, handleInputs, list}) => {
+const SearchForm = ({ handleEvent, identifiers, inputs, list, className, ids }) => {
 	return (
-		<form onSubmit={handleEvent}>
-			<div className="input-div">
+		<form onSubmit={handleEvent()}>
+			<aside className={className}>
 				<Input
-					id="genre"
+					id={ids[0]}
 					type="text"
 					isFocused
-					identifier={inputIDs[0]}
-					input={handleInputs[0]}
+					identifier={identifiers[0]}
+					input={inputs[0]}
 				>
 					<strong>Genre: </strong>
 				</Input>
 
 				<Input
-					id="year"
+					id={ids[1]}
 					type="text"
 					isFocused
-					identifier={inputIDs[1]}
-					input={handleInputs[1]}
+					identifier={identifiers[1]}
+					input={inputs[1]}
 				>
 					<strong>Year: </strong>
 				</Input>
-			</div>
+			</aside>
 
-			<div className="search-button-div">
+			<aside className="button-div">
 				<SearchButton
-					identifier={inputIDs[0]}
+					type="submit"
+					identifier={identifiers[0]}
 					loading={list.isLoading}
 				>Search</SearchButton>
-			</div>
+			</aside>
 		</form>
 	)
 }

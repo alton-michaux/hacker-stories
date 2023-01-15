@@ -1,16 +1,17 @@
 import React, { useState, useEffect, useReducer, useCallback } from "react";
+import axios from 'axios';
 import UseSemiPersistentState from "./semiPerssistentState";
 import ListReducer from "./reducers";
 import Input from "./inputComponent";
+import SearchButton from "./buttonComponent";
 import Items from "./items";
-import SearchForm from "./searchForm";
 import "./App.css"
-import axios from 'axios';
+import SearchForm from "./searchForm";
 
 const App = () => {
   // state variables
 
-  const [searchTerm, setSearchTerm] = UseSemiPersistentState("search", "");
+  const [searchTerm, setSearchTerm] = useState('');
 
   const [genre, setGenre] = UseSemiPersistentState("genre", "");
 
@@ -20,31 +21,31 @@ const App = () => {
 
   const [list, dispatchList] = useReducer(
     ListReducer,
-    { data: [], isLoading: false, isError: false, isEmpty: false }
+    { data: [], isLoading: false, isError: false, isBlank: false }
   );
 
-  // function that makes the API call
+  // custom functions
+  const filteredEntries = list.data.filter((entry) => {
+    return (
+      entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  });
 
   const fetchData = useCallback(async () => {
     dispatchList({ type: 'LIST_FETCH_INIT' })
 
-    const options = {
-      method: 'GET',
-      headers: {
-        'X-RapidAPI-Key': 'f512439e7bmshfcd6bd4a75c5610p120950jsn4df1718c8117',
-        'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
-      }
-    };
-
+    if (!endpoint) {
+      dispatchList({ type: 'LIST_NO_RESULTS' })
+    }
     try {
-      const response = await axios(endpoint, options)
-
-      if (response.data.page) {
-        dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: response.data.results })
-      } else {
-        dispatchList({ type: 'LIST_NO_INIT' })
-      }
-    } catch {
+      const response = await axios.get(endpoint, {
+        headers: {
+          'X-RapidAPI-Key': 'f512439e7bmshfcd6bd4a75c5610p120950jsn4df1718c8117',
+          'X-RapidAPI-Host': 'moviesdatabase.p.rapidapi.com'
+        }
+      })
+      dispatchList({ type: 'LIST_FETCH_SUCCESS', payload: [...response.data.results] })
+    } catch (error) {
       dispatchList({ type: 'LIST_FETCH_FAILURE' })
     }
   }, [endpoint])
@@ -72,14 +73,12 @@ const App = () => {
     setGenre(event.target.value.charAt(0).toUpperCase() + event.target.value.slice(1))
   }
 
-  const handleBuildEndpoint = (event) => {
+  const handleSearchAction = () => {
     const page = 1
     const type = 'movie'
     const limit = 50
 
     setEndpoint(`https://moviesdatabase.p.rapidapi.com/titles?&titleType=${type}&genre=${genre}&limit=${limit}&year=${year}&page=${page}`)
-
-    event.preventDefault()
   }
 
   const handleRemoveItem = (item) => {
@@ -89,52 +88,57 @@ const App = () => {
     })
   };
 
-  // keyword search filter
-  const filteredEntries = list.data.filter((entry) => {
-    return (
-      entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  });
-
+  const handleSaveList = () => {
+    localStorage.setItem('list', JSON.stringify(filteredEntries))
+    alert("List Saved!")
+  }
+console.log('list', list)
   return (
-    <div style={{ textAlign: "center" }} className="main-div">
-      <h1>{genre} Movies {year}</h1>
+    <main style={{ textAlign: "center" }} className="main-div">
+      <section className="info-div">
+        <h1 className="headline">{genre} Movies {year}</h1>
+        <SearchForm
+          identifiers={[genre, year]}
+          inputs={[handleGenreInput, handleYearInput]}
+          handleEvent={handleSearchAction}
+          list={list}
+          className="input-div"
+          ids={["genre", "year"]}
+        ></SearchForm>
 
-      <SearchForm
-        handleEvent={handleBuildEndpoint}
-        inputIDs={[genre, year]}
-        handleInputs={[handleGenreInput, handleYearInput]}
-        list={list}
-      ></SearchForm>
+        <hr className="divider" />
 
-      <hr className="divider" />
+        <aside className="search-save-div">
+          <Input
+            id="search"
+            type="text"
+            isFocused
+            identifier={searchTerm}
+            input={handleSearchInput}
+          >
+            <strong>Search: </strong>
+          </Input>
 
-      <div className="input-div">
-        <Input
-          id="search"
-          type="text"
-          isFocused
-          identifier={searchTerm}
-          input={handleSearchInput}
-        >
-          <strong>Search: </strong>
-        </Input>
-      </div>
+          <SearchButton
+            identifier={filteredEntries}
+            inputAction={handleSaveList}
+          >Save List</SearchButton>
+        </aside>
+      </section>
 
-      <hr className="divider" />
+      <section className="list-div">
+        {list.isError && <p>Something went wrong...</p>}
 
-      <div className="list-div">
+        {list.isBlank && <p>No data.</p>}
+
         {list.isLoading ? (
           <p> Loading... </p>
         ) : (
           <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
         )
         }
-
-        {list.isEmpty && <p>No Data</p>}
-        {list.isError && <p>Something went wrong...</p>}
-      </div>
-    </div>
+      </section>
+    </main>
   );
 };
 
