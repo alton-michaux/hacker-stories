@@ -1,125 +1,4 @@
-@media screen and (min-width: 1500px) {
-  body {
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    background-color: black;
-    color: white;
-    overflow: hidden;
-  }
-
-  body ::-webkit-scrollbar {
-    display: none;
-  }
-
-  button {
-    background-color: transparent;
-    color: white;
-    border: solid 1px white;
-    padding: 2%;
-  }
-
-  button:hover {
-    border: 3px solid white;
-    cursor: pointer;
-  }
-
-  .main-div {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    margin-right: 5%;
-    margin-left: 5%;
-    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://fandomwire.com/wp-content/uploads/2018/08/Movies-background.png');
-    background-attachment: fixed;
-    justify-content: center;
-    height: 100vh;
-  }
-
-  .info-div {
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    width: 450px;
-    height:50vh;
-    left: 7%;
-    margin-top: 12.5%;
-    border: 1px solid grey;
-    padding: .5%;
-  }
-
-  .inputs {
-    padding: .5%;
-    display: inline-flex;
-    flex-direction: column;
-  }
-
-  .inputs input {
-    text-align: center;
-  }
-
-  .search-button {
-    margin-top: 20px;
-  }
-
-  .button-div {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .search-save-div {
-    display: inline-flex;
-    flex-direction: column;
-  }
-
-  .list-div {
-    overflow-y: scroll;
-    position: fixed;
-    right: 5%;
-    top: 0;
-    height: 100vh;
-    width: 900px;
-  }
-
-  .divider {
-    margin: 2%;
-  }
-
-  .item-div {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: auto auto auto;
-    gap: 5px;
-    row-gap: 1px;
-    padding-left: 0;
-    min-height: 100px;
-  }
-
-  .headline {
-    position: sticky;
-    margin-top: 5%;
-  }
-
-  .item {
-    margin: 10%;
-    transition: height 0.5s;
-    -webkit-transition: height 0.5s;
-  }
-
-  .item:hover {
-    border: 2px solid white;
-  }
-
-  .item-title {
-    margin-top: 10px;
-  }
-
-  .delete-btn {
-    padding: 20px;
-    border-radius: 10%;
-    background-color: #8d1609;
-    color: white;
-  }
-}
-
-@media screen and (max-width: 1500px) {
+@media screen and (max-width: 1200px) {
   body {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     background-color: black;
@@ -183,3 +62,125 @@
     font-size: 50px;
   }
 }
+
+@media screen and (min-width: 1200px) {
+  body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: black;
+    color: white;
+    overflow: hidden;
+  }
+
+  body ::-webkit-scrollbar {
+    display: none;
+  }
+
+  button {
+    background-color: transparent;
+    color: white;
+    border: solid 1px white;
+    padding: 2%;
+  }
+
+  button:hover {
+    border: 3px solid white;
+    cursor: pointer;
+  }
+
+  .main-div {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    margin-right: 5%;
+    margin-left: 5%;
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://fandomwire.com/wp-content/uploads/2018/08/Movies-background.png');
+    background-attachment: fixed;
+    justify-content: center;
+    height: 100vh;
+  }
+
+  .info-div {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    max-width: 1fr;
+    height:50vh;
+    margin-left: 10px;
+    margin-top: 12.5%;
+    border: 1px solid grey;
+    padding: .5%;
+  }
+
+  .inputs {
+    padding: .5%;
+    display: inline-flex;
+    flex-direction: column;
+  }
+
+  .inputs input {
+    text-align: center;
+  }
+
+  .search-button {
+    margin-top: 20px;
+  }
+
+  .button-div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .search-save-div {
+    display: inline-flex;
+    flex-direction: column;
+  }
+
+  .list-div {
+    overflow-y: scroll;
+    position: fixed;
+    right: 5%;
+    top: 0;
+    height: 100vh;
+    max-width: 60vw;
+  }
+
+  .divider {
+    margin: 2%;
+  }
+
+  .item-div {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 5px;
+    row-gap: 1px;
+    padding-left: 0;
+    min-height: 100px;
+  }
+
+  .headline {
+    position: sticky;
+    margin-top: 5%;
+  }
+
+  .item {
+    margin: 10%;
+    transition: height 0.5s;
+    -webkit-transition: height 0.5s;
+  }
+
+  .item:hover {
+    border: 2px solid white;
+  }
+
+  .item-title {
+    margin-top: 10px;
+  }
+
+  .delete-btn {
+    padding: 20px;
+    border-radius: 10%;
+    background-color: #8d1609;
+    color: white;
+  }
+}
+
