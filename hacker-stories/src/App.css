@@ -3,7 +3,9 @@
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     background-color: black;
     color: white;
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-width: 100vw;
   }
   
   button {
@@ -24,7 +26,7 @@
     background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://fandomwire.com/wp-content/uploads/2018/08/Movies-background.png');
     background-attachment: fixed;
     justify-content: center;
-    width: 100vw;
+    max-width: 100vw;
   }
   
   .info-div {
@@ -99,13 +101,13 @@
   }
 
   .info-div {
-    position: fixed;
+    position: relative;
     display: flex;
     flex-direction: column;
-    max-width: 1fr;
+    min-width: 1fr;
     height:50vh;
-    margin-left: 50px;
-    margin-top: 12.5%;
+    margin-left: 5%;
+    margin-top: 40%;
     border: 1px solid grey;
     padding: .5%;
   }
