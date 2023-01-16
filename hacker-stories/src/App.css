@@ -104,7 +104,7 @@
     flex-direction: column;
     max-width: 1fr;
     height:50vh;
-    margin-left: 10px;
+    margin-left: 50px;
     margin-top: 12.5%;
     border: 1px solid grey;
     padding: .5%;
@@ -183,4 +183,3 @@
     color: white;
   }
 }
-
