@@ -74,7 +74,8 @@ const App = () => {
     setGenre(event.target.value.charAt(0).toUpperCase() + event.target.value.slice(1))
   }
 
-  const handleSearchAction = () => {
+  const handleSearchAction = (event) => {
+    event.preventDefault()
     const page = 1
     const type = 'movie'
     const limit = 50
