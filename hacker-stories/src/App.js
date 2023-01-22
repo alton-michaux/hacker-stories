@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useReducer, useCallback } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import axios from "axios";
-import UseSemiPersistentState from "./semiPerssistentState";
-import ListReducer from "./reducers";
-import "./App.css"
 import Home from './Home'
 import ListView from './ListView'
+import UseSemiPersistentState from "./semiPerssistentState";
+import ListReducer from "./reducers";
+import axios from "axios";
+import "./App.css"
 
 const App = () => {
   // state variables
