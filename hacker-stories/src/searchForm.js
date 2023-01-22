@@ -3,7 +3,7 @@ import SearchButton from "./buttonComponent"
 
 const SearchForm = ({ handleEvent, identifiers, inputs, list, className, ids }) => {
 	return (
-		<form onSubmit={handleEvent()}>
+		<form onSubmit={handleEvent}>
 			<aside className={className}>
 				<Input
 					id={ids[0]}

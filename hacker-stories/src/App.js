@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useReducer, useCallback } from "react";
-import axios from 'axios';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import axios from "axios";
 import UseSemiPersistentState from "./semiPerssistentState";
 import ListReducer from "./reducers";
-import Input from "./inputComponent";
-import SearchButton from "./buttonComponent";
-import Items from "./items";
 import "./App.css"
-import SearchForm from "./searchForm";
+import Home from './Home'
+import ListView from './ListView'
 
 const App = () => {
   // state variables
@@ -25,12 +24,6 @@ const App = () => {
   );
 
   // custom functions
-  const filteredEntries = list.data.filter((entry) => {
-    return (
-      entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  });
-
   const fetchData = useCallback(async () => {
     dispatchList({ type: 'LIST_FETCH_INIT' })
 
@@ -56,6 +49,12 @@ const App = () => {
     }, 3000)
   }, [fetchData]);
 
+  const filteredEntries = list.data.filter((entry) => {
+    return (
+      entry.titleText.text.toLowerCase().includes(searchTerm.toLowerCase()) || entry.titleType.text.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+  });
+
   // handlers
 
   const handleSearchInput = (event) => {
@@ -73,7 +72,8 @@ const App = () => {
     setGenre(event.target.value.charAt(0).toUpperCase() + event.target.value.slice(1))
   }
 
-  const handleSearchAction = () => {
+  const handleSearchAction = (event) => {
+    event.preventDefault()
     const page = 1
     const type = 'movie'
     const limit = 50
@@ -92,53 +92,43 @@ const App = () => {
     localStorage.setItem('list', JSON.stringify(filteredEntries))
     alert("List Saved!")
   }
-console.log('list', list)
+
   return (
-    <main style={{ textAlign: "center" }} className="main-div">
-      <section className="info-div">
-        <h1 className="headline">{genre} Movies {year}</h1>
-        <SearchForm
-          identifiers={[genre, year]}
-          inputs={[handleGenreInput, handleYearInput]}
-          handleEvent={handleSearchAction}
-          list={list}
-          className="input-div"
-          ids={["genre", "year"]}
-        ></SearchForm>
-
-        <hr className="divider" />
-
-        <aside className="search-save-div">
-          <Input
-            id="search"
-            type="text"
-            isFocused
-            identifier={searchTerm}
-            input={handleSearchInput}
-          >
-            <strong>Search: </strong>
-          </Input>
-
-          <SearchButton
-            identifier={filteredEntries}
-            inputAction={handleSaveList}
-          >Save List</SearchButton>
-        </aside>
-      </section>
-
-      <section className="list-div">
-        {list.isError && <p>Something went wrong...</p>}
-
-        {list.isBlank && <p>No data.</p>}
-
-        {list.isLoading ? (
-          <p> Loading... </p>
-        ) : (
-          <Items list={filteredEntries} onRemoveItem={handleRemoveItem} />
-        )
-        }
-      </section>
-    </main>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          exact
+          path='/'
+          element={
+            <Home
+              genre={genre}
+              year={year}
+              list={list}
+              handleGenreInput={handleGenreInput}
+              handleYearInput={handleYearInput}
+              handleSearchAction={handleSearchAction}
+              searchTerm={searchTerm}
+              handleSearchInput={handleSearchInput}
+              handleRemoveItem={handleRemoveItem}
+              filteredEntries={filteredEntries}
+              handleSaveList={handleSaveList}
+            ></Home>
+          }
+        ></Route>
+        <Route
+          path='/list'
+          element={
+            <ListView
+              list={list}
+              filteredEntries={filteredEntries}
+              handleRemoveItem={handleRemoveItem}
+              searchTerm={searchTerm}
+              handleSearchInput={handleSearchInput}
+            ></ListView>
+          }
+        ></Route>
+      </Routes>
+    </BrowserRouter>
   );
 };
 

@@ -1,4 +1,71 @@
-@media screen and (min-width: 1500px) {
+@media screen and (max-width: 1200px) {
+  body {
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    background-color: black;
+    color: white;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+  
+  button {
+    background-color: transparent;
+    color: white;
+    border: solid 3px white;
+    padding: 2%;
+    font-size: 50px;
+    margin-bottom: 2%;
+  }
+
+  h1 {
+    font-size: 40px;
+  }
+  
+  .main-div {
+    margin: auto;
+    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://fandomwire.com/wp-content/uploads/2018/08/Movies-background.png');
+    background-attachment: fixed;
+    justify-content: center;
+    max-width: 100vw;
+  }
+  
+  .info-div {
+    font-size: 40px;
+  }
+  
+  .inputs {
+    margin: 0 auto;
+    padding: 5%;
+    display: flex;
+    flex-direction: column;
+    height: 50%;
+    width: 50%;
+  }
+  
+  .inputs input {
+    margin-top: 2.5%;
+    text-align: center;
+    height: 75px;
+    font-size: 40px;
+  }
+  
+  .item-div {
+    padding-left: 0;
+    min-height: 100px;
+  }
+  
+  .item {
+    margin: 5%;
+    transition: height 0.5s;
+    -webkit-transition: height 0.5s;
+  }
+  
+  .item-title {
+    font-size: 50px;
+  }
+}
+
+@media screen and (min-width: 1200px) {
   body {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     background-color: black;
@@ -34,13 +101,13 @@
   }
 
   .info-div {
-    position: fixed;
+    position: relative;
     display: flex;
     flex-direction: column;
-    width: 450px;
+    min-width: 1fr;
     height:50vh;
-    left: 7%;
-    margin-top: 12.5%;
+    margin-left: 5%;
+    margin-top: 40%;
     border: 1px solid grey;
     padding: .5%;
   }
@@ -75,7 +142,7 @@
     right: 5%;
     top: 0;
     height: 100vh;
-    width: 900px;
+    max-width: 60vw;
   }
 
   .divider {
@@ -116,70 +183,5 @@
     border-radius: 10%;
     background-color: #8d1609;
     color: white;
-  }
-}
-
-@media screen and (max-width: 1500px) {
-  body {
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    background-color: black;
-    color: white;
-    overflow: scroll;
-  }
-  
-  button {
-    background-color: transparent;
-    color: white;
-    border: solid 3px white;
-    padding: 2%;
-    font-size: 50px;
-    margin-bottom: 2%;
-  }
-
-  h1 {
-    font-size: 40px;
-  }
-  
-  .main-div {
-    margin: auto;
-    background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('https://fandomwire.com/wp-content/uploads/2018/08/Movies-background.png');
-    background-attachment: fixed;
-    justify-content: center;
-    width: 100vw;
-  }
-  
-  .info-div {
-    font-size: 40px;
-  }
-  
-  .inputs {
-    margin: 0 auto;
-    padding: 5%;
-    display: flex;
-    flex-direction: column;
-    height: 50%;
-    width: 50%;
-  }
-  
-  .inputs input {
-    margin-top: 2.5%;
-    text-align: center;
-    height: 75px;
-    font-size: 40px;
-  }
-  
-  .item-div {
-    padding-left: 0;
-    min-height: 100px;
-  }
-  
-  .item {
-    margin: 5%;
-    transition: height 0.5s;
-    -webkit-transition: height 0.5s;
-  }
-  
-  .item-title {
-    font-size: 50px;
   }
 }
